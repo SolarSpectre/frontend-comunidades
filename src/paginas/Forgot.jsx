@@ -10,7 +10,7 @@ export const Forgot = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         try {
-            const url = "http://localhost:3000/api/recuperar-password"
+            const url = `${import.meta.env.VITE_BACKEND_URL}/recuperar-password`
             const respuesta = axios.post(url, mail)
             const json = await respuesta
             toast.success(json.data.msg)

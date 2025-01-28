@@ -2,7 +2,7 @@ import React from 'react'
 import { CardPerfil } from '../componets/Perfil/CardPerfil'
 import Password from '../componets/Perfil/Password'
 import FormularioPerfil from '../componets/Perfil/FormularioPerfil'
-import { CardPerfilPaciente } from '../componets/Perfil/CardPerfilPaciente'
+import { CardPerfilPaciente } from '../componets/Perfil/CardPerfilEstudiante'
 import AuthContext from '../context/AuthProvider'
 import { useContext } from 'react'
 

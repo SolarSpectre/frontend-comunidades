@@ -34,7 +34,7 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:3000/api/estudiante/registro";
+      const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/registro`;
       const formData = new FormData();
 
       // Agregar los datos del formulario al FormData
