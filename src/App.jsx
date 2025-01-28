@@ -2,7 +2,6 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Auth from './layout/Auth'
 import Login from './paginas/Login'
-import { LandinPage } from './paginas/LandinPage'
 import { Register } from './paginas/Register'
 import { Forgot } from './paginas/Forgot'
 import { NotFound } from './paginas/NotFound'
@@ -19,6 +18,7 @@ import { AuthProvider } from './context/AuthProvider'
 import { TratamientosProvider } from './context/TratamientosProvider'
 import PrivateRouteWithRole from './routes/PrivateRouteWithRole'
 import Chat from './paginas/Chat'
+import LandinPage from './paginas/LandinPage'
 
 
 function App() {

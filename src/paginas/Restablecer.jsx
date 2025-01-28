@@ -1,4 +1,3 @@
-import logoDog from '../assets/dog-hand.webp'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import { useEffect, useState } from 'react'
@@ -61,7 +60,7 @@ const Restablecer = () => {
             <ToastContainer />
             <h1 className="text-3xl font-semibold mb-2 text-center uppercase  text-gray-500">Welcome again</h1>
             <small className="text-gray-400 block my-4 text-sm">Please enter your details</small>
-            <img className="object-cover h-80 w-80 rounded-full border-4 border-solid border-slate-600" src={logoDog} alt="image description" />
+            <img className="object-cover h-80 w-80 rounded-full border-4 border-solid border-slate-600" src='/images/recuperar.jpg' alt="image description" />
             {tokenback &&
                 <form className='w-full' onSubmit={handleSubmit}>
                     <div className="mb-1">

@@ -27,7 +27,7 @@ const FormularioPerfil = () => {
             toast.error("Todos los campos deben ser ingresados")
         }
         const resultado = await actualizarPerfil(form)
-        toast(resultado)
+        toast.success(resultado.respuesta)
     }
 
     return (

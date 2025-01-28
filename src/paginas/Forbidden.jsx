@@ -1,12 +1,10 @@
-import logoDog from '../assets/doglost.jpg'
-
 export const Forbidden = () => {
     return (
         
 
         <div className="flex flex-col items-center justify-center">
 
-            <img className="object-cover h-80 w-80 rounded-full border-4 border-solid border-slate-600" src={logoDog} alt="image description"/>
+            <img className="object-cover h-80 w-80 rounded-full border-4 border-solid border-slate-600" src='/images/denegado.jpg' alt="image description"/>
 
             <div className="flex flex-col items-center justify-center">
                 

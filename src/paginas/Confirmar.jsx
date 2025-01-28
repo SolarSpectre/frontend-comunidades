@@ -1,5 +1,4 @@
 import axios from 'axios'
-import logoDog from '../assets/dog-hand.webp'
 import {Link, useParams} from 'react-router-dom'
 import { useEffect } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
@@ -26,7 +25,7 @@ export const Confirmar = () => {
     return (
         <div className="flex flex-col items-center justify-center">
 
-            <img className="object-cover h-80 w-80 rounded-full border-4 border-solid border-slate-600" src={logoDog} alt="image description"/>
+            <img className="object-cover h-80 w-80 rounded-full border-4 border-solid border-slate-600" src='/images/icons8-received-96.png' alt="email confirmation"/>
 
             <div className="flex flex-col items-center justify-center">
                 <p className="text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-12">Muchas Gracias</p>

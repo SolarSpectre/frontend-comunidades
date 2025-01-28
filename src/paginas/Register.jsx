@@ -12,7 +12,6 @@ export const Register = () => {
     celular: "",
     universidad: "",
     carrera: "",
-    anioIngreso: "",
     bio: "",
     intereses: "",
     comunidad: "",
@@ -66,33 +65,33 @@ export const Register = () => {
       <div className="bg-white flex justify-center items-start w-1/2">
         <div className="md:w-4/5 sm:w-full">
           <h1 className="text-3xl font-semibold mb-2 text-center uppercase text-gray-500">
-            Create Your Account
+            Crea tu cuenta
           </h1>
           <small className="text-gray-400 block my-4 text-sm">
-            Please fill out the form below
+            Por favor llena los siguientes campos
           </small>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label className="mb-2 block text-sm font-semibold">Full Name</label>
+              <label className="mb-2 block text-sm font-semibold">Nombre Completo</label>
               <input
                 name="nombre"
                 value={form.nombre || ""}
                 onChange={handleChange}
                 type="text"
-                placeholder="Enter your full name"
+                placeholder="ej: Juan Perez"
                 className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
               />
             </div>
 
             <div className="mb-3">
-              <label className="mb-2 block text-sm font-semibold">Username</label>
+              <label className="mb-2 block text-sm font-semibold">Usuario</label>
               <input
                 name="usuario"
                 value={form.usuario || ""}
                 onChange={handleChange}
                 type="text"
-                placeholder="Enter a username"
+                placeholder="ej: juanperez"
                 className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
               />
             </div>
@@ -104,7 +103,7 @@ export const Register = () => {
                 value={form.email || ""}
                 onChange={handleChange}
                 type="email"
-                placeholder="Enter your email"
+                placeholder="ej: juan@gmail.com"
                 className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
               />
             </div>
@@ -116,61 +115,48 @@ export const Register = () => {
                 value={form.password || ""}
                 onChange={handleChange}
                 type="password"
-                placeholder="Enter your password"
+                placeholder="********"
                 className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
               />
             </div>
 
             <div className="mb-3">
-              <label className="mb-2 block text-sm font-semibold">Phone Number</label>
+              <label className="mb-2 block text-sm font-semibold">Celular</label>
               <input
                 name="celular"
                 value={form.celular || ""}
                 onChange={handleChange}
                 type="tel"
-                placeholder="Enter your phone number"
+                placeholder="ej: 1234567890"
                 className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
               />
             </div>
 
             <div className="mb-3">
-              <label className="mb-2 block text-sm font-semibold">University</label>
+              <label className="mb-2 block text-sm font-semibold">Universidad</label>
               <input
                 name="universidad"
                 value={form.universidad || ""}
                 onChange={handleChange}
                 type="text"
-                placeholder="Enter your university"
+                placeholder="ej: Universidad Central"
                 className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
               />
             </div>
 
             <div className="mb-3">
-              <label className="mb-2 block text-sm font-semibold">Degree Program</label>
+              <label className="mb-2 block text-sm font-semibold">Carrera</label>
               <input
                 name="carrera"
                 value={form.carrera || ""}
                 onChange={handleChange}
                 type="text"
-                placeholder="Enter your degree program"
+                placeholder="ej: Ingeniería en Sistemas"
                 className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
               />
             </div>
-
             <div className="mb-3">
-              <label className="mb-2 block text-sm font-semibold">Year of Entry</label>
-              <input
-                name="anioIngreso"
-                value={form.anioIngreso || ""}
-                onChange={handleChange}
-                type="number"
-                placeholder="Enter your year of entry"
-                className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="mb-2 block text-sm font-semibold">Profile Picture</label>
+              <label className="mb-2 block text-sm font-semibold">Foto de Perfil</label>
               <input
                 type="file"
                 onChange={handleImageChange}
@@ -184,13 +170,13 @@ export const Register = () => {
                 type="submit"
                 className="bg-gray-500 text-slate-300 border py-2 w-full rounded-xl mt-5 hover:scale-105 duration-300 hover:bg-gray-900 hover:text-white"
               >
-                Register
+                Registrarse
               </button>
             </div>
           </form>
 
           <div className="mt-3 text-sm flex justify-between items-center">
-            <p>Already have an account?</p>
+            <p>Ya tienes cuenta?</p>
             <Link
               to="/login"
               className="py-2 px-5 bg-gray-500 text-slate-300 border rounded-xl hover:scale-110 duration-300 hover:bg-gray-900"

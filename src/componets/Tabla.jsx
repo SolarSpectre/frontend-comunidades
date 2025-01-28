@@ -93,7 +93,7 @@ const Tabla = () => {
                                         <td className='py-2 text-center'>
                                             <MdNoteAdd onClick={() => { navigate(`/dashboard/visualizar/${paciente._id}`) }} className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2" />
                                             {
-                                                auth.rol === "veterinario" &&
+                                                auth.rol === "Administrador" &&
                                                 (
                                                     <>
                                                         <MdInfo className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"

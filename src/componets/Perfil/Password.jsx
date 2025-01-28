@@ -5,9 +5,11 @@ import AuthContext from "../../context/AuthProvider"
 
 const Password = () => {
     const {actualizarPassword} = useContext(AuthContext)
+    const {_id} = JSON.parse(localStorage.getItem('auth'))
     const [form, setForm] = useState({
         passwordactual: "",
-        passwordnuevo: ""
+        passwordnuevo: "",
+        _id: _id
     })
 
     const handleChange = (e) => {
@@ -27,9 +29,8 @@ const Password = () => {
             return
         }
         const resultado = await actualizarPassword(form)
-        console.log("contraseña cambiada");
-        toast.success(resultado)
-        
+        toast.success(resultado.respuesta)
+        setForm({...form, passwordactual: "", passwordnuevo: ""})
     }
 
     return (
