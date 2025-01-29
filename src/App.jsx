@@ -19,6 +19,9 @@ import { TratamientosProvider } from './context/TratamientosProvider'
 import PrivateRouteWithRole from './routes/PrivateRouteWithRole'
 import Chat from './paginas/Chat'
 import LandinPage from './paginas/LandinPage'
+import RegisterAdmin from './paginas/RegisterAdmin'
+import ForoComunidad from './paginas/comunidades/Foro'
+import { PerfilEstudiante } from './paginas/PerfilEstudiante'
 
 
 function App() {
@@ -48,21 +51,24 @@ function App() {
                       <Route index element={<Perfil />} />
                       <Route path='listar' element={<Listar />} />
                       <Route path='visualizar/:id' element={<Visualizar />} />
+                      <Route path=':id/chat' element={<ForoComunidad />} />
                       <Route path='crear' element={
                         <PrivateRouteWithRole>
                           <Crear />
                         </PrivateRouteWithRole>
                       } />
+                      <Route path='registro' element={
+                        <PrivateRouteWithRole>
+                          <RegisterAdmin />
+                        </PrivateRouteWithRole>
+                      } />
                       <Route path='actualizar/:id' element={<Actualizar />} />
+                      <Route path='perfil/:id' element={<PerfilEstudiante />} />
             		      <Route path='chat' element={<Chat />} />
                     </Route>
                   </Routes>
                 </PrivateRoute>
               } />
-
-
-
-
             </Routes>
           </TratamientosProvider>
         </AuthProvider>
