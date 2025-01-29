@@ -1,122 +1,148 @@
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthProvider";
-import { MdDeleteForever, MdNoteAdd, MdInfo } from "react-icons/md";
-import axios from 'axios';
-import { useNavigate, useParams } from "react-router-dom";
+import { MdDeleteForever, MdEdit, MdGroupAdd } from "react-icons/md";
+import { BsInfoCircleFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
-const Tabla = () => {
-    const navigate = useNavigate()
-    const { auth } = useContext(AuthContext)
-    const [pacientes, setPacientes] = useState([])
-    const [form, setform] = useState({
-        nombre: "",
-        propietario: "",
-        email: "",
-        celular: "",
-        convencional: "",
-        sintomas: ""
-    })
-    const { id } = useParams()
+const TablaComunidades = () => {
+  const navigate = useNavigate();
+  const { auth } = useContext(AuthContext); // Información del usuario autenticado
+  const [comunidades, setComunidades] = useState([]);
 
-    const listarPacientes = async () => {
-        try {
-            const token = localStorage.getItem('token')
-            const url = `${import.meta.env.VITE_BACKEND_URL}/pacientes`
-            const options = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-            }
-            const respuesta = await axios.get(url, options)
-            setPacientes(respuesta.data, ...pacientes)
-        } catch (error) {
-            console.log(error);
-        }
+  // Función para obtener todas las comunidades
+  const listarComunidades = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const url = `${import.meta.env.VITE_BACKEND_URL}/comunidades`;
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const respuesta = await axios.get(url, options);
+      setComunidades(respuesta.data);
+    } catch (error) {
+      console.error("Error al listar las comunidades:", error);
     }
-    const eliminarPaciente = async (id) => {
-        try {
-            const confirmar = confirm('vas a eliminar a este paciente, ¿Estas Seguro?')
-            if (confirmar) {
-                const token = localStorage.getItem('token')
-                const url = `${import.meta.env.VITE_BACKEND_URL}/paciente/eliminar/${id}`
-                const headers = {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-                const data = {
-                    salida: new Date().toString()
-                }
-                await axios.delete(url, { headers, data })
-                listarPacientes()
-            }
-        } catch (error) {
-            console.log(error)
-        }
+  };
+
+  // Función para eliminar una comunidad
+  const eliminarComunidad = async (id) => {
+    try {
+      const confirmar = confirm("¿Estás seguro de eliminar esta comunidad?");
+      if (confirmar) {
+        const token = localStorage.getItem("token");
+        const url = `${import.meta.env.VITE_BACKEND_URL}/comunidades/${id}`;
+        const options = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        await axios.delete(url, options);
+        listarComunidades(); // Actualizar la lista de comunidades después de eliminar
+      }
+    } catch (error) {
+      console.error("Error al eliminar la comunidad:", error);
     }
-    useEffect(() => {
-        listarPacientes()
-    }, [])
+  };
 
+  // Función para unirse a una comunidad (solo estudiantes)
+  const unirseComunidad = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const url = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/comunidades/${id}/unirse`;
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.post(url, { _id: auth?._id }, options);
+      toast.success("Te has unido a la comunidad exitosamente.");
+    } catch (error) {
+      console.error("Error al unirse a la comunidad:", error);
+    }
+  };
 
-    return (
-        <>
-            {
-                pacientes.length == 0
-                    ?
-                    <p tipo={'active'}>{'No existen registros'}</p>
-                    :
-                    <table className='w-full mt-5 table-auto shadow-lg  bg-white'>
-                        <thead className='bg-gray-800 text-slate-400'>
-                            <tr>
-                                <th className='p-2'>N°</th>
-                                <th className='p-2'>Nombre</th>
-                                <th className='p-2'>Propietario</th>
-                                <th className='p-2'>Email</th>
-                                <th className='p-2'>Celular</th>
-                                <th className='p-2'>Estado</th>
-                                <th className='p-2'>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                pacientes.map((paciente, index) => (
-                                    <tr className="border-b hover:bg-gray-300 text-center" key={paciente._id}>
-                                        <td>{index + 1}</td>
-                                        <td>{paciente.nombre}</td>
-                                        <td>{paciente.propietario}</td>
-                                        <td>{paciente.email}</td>
-                                        <td>{paciente.celular}</td>
-                                        <td>
-                                            <span className="bg-blue-100 text-green-500 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{paciente.estado && "activo"}</span>
-                                        </td>
-                                        <td className='py-2 text-center'>
-                                            <MdNoteAdd onClick={() => { navigate(`/dashboard/visualizar/${paciente._id}`) }} className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2" />
-                                            {
-                                                auth.rol === "Administrador" &&
-                                                (
-                                                    <>
-                                                        <MdInfo className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
-                                                            onClick={() => navigate(`/dashboard/actualizar/${paciente._id}`)}
-                                                        />
+  useEffect(() => {
+    listarComunidades();
+  }, []);
 
-                                                        <MdDeleteForever className="h-7 w-7 text-red-900 cursor-pointer inline-block"
-                                                            onClick={() => { eliminarPaciente(paciente._id) }}
-                                                        />
-                                                    </>
-                                                )
-                                            }
-                                        </td>
-                                    </tr>
-                                ))
-                            }
+  return (
+    <>
+      <ToastContainer />
+      {comunidades.length === 0 ? (
+        <p>No existen comunidades registradas.</p>
+      ) : (
+        <table className="w-full mt-5 table-auto shadow-lg bg-white">
+          <thead className="bg-gray-800 text-slate-400">
+            <tr>
+              <th className="p-2">N°</th>
+              <th className="p-2">Nombre</th>
+              <th className="p-2">Descripción</th>
+              <th className="p-2">Tipo</th>
+              <th className="p-2">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comunidades.map((comunidad, index) => (
+              <tr
+                className="border-b hover:bg-gray-300 text-center"
+                key={comunidad._id}
+              >
+                <td>{index + 1}</td>
+                <td>{comunidad.nombre}</td>
+                <td>{comunidad.descripcion}</td>
+                <td>{comunidad.tipo}</td>
+                <td className="py-2 text-center">
+                  {auth.rol === "Estudiante" && (
+                    <>
+                      <MdGroupAdd
+                        className="h-7 w-7 text-blue-700 cursor-pointer inline-block mr-2"
+                        onClick={() => unirseComunidad(comunidad._id)}
+                      />
+                      <BsInfoCircleFill
+                        className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
+                        onClick={() =>
+                          navigate(`/dashboard/visualizar/${comunidad._id}`)
+                        }
+                      />
+                    </>
+                  )}
+                  {auth.rol === "Administrador" && (
+                    <>
+                      <BsInfoCircleFill
+                        className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
+                        onClick={() =>
+                          navigate(`/dashboard/visualizar/${comunidad._id}`)
+                        }
+                      />
+                      <MdEdit
+                        className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
+                        onClick={() =>
+                          navigate(`/dashboard/actualizar/${comunidad._id}`)
+                        }
+                      />
+                      <MdDeleteForever
+                        className="h-7 w-7 text-red-900 cursor-pointer inline-block"
+                        onClick={() => eliminarComunidad(comunidad._id)}
+                      />
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </>
+  );
+};
 
-                        </tbody>
-                    </table>
-            }
-        </>
-
-    )
-}
-
-export default Tabla
+export default TablaComunidades;
