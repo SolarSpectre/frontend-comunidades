@@ -14,7 +14,7 @@ const Chat = () => {
   
   const authData = JSON.parse(localStorage.getItem('auth')) || {};
   const username = authData.usuario || 'Anonymous';
-  const userProfileImg = authData.fotoPerfil || '/images/defaultprofile.jpg';
+  const userProfileImg = authData.fotoPerfil.url || '/images/defaultprofile.jpg';
 
   useEffect(() => {
     socketRef.current = io('http://localhost:3000', {

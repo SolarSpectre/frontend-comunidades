@@ -15,13 +15,13 @@ import { Confirmar } from './paginas/Confirmar'
 import Restablecer from './paginas/Restablecer'
 import { PrivateRoute } from './routes/PrivateRoute'
 import { AuthProvider } from './context/AuthProvider'
-import { TratamientosProvider } from './context/TratamientosProvider'
 import PrivateRouteWithRole from './routes/PrivateRouteWithRole'
 import Chat from './paginas/Chat'
 import LandinPage from './paginas/LandinPage'
 import RegisterAdmin from './paginas/RegisterAdmin'
 import ForoComunidad from './paginas/comunidades/Foro'
 import { PerfilEstudiante } from './paginas/PerfilEstudiante'
+import ChatAmigo from './paginas/ChatAmigos'
 
 
 function App() {
@@ -30,7 +30,6 @@ function App() {
       <BrowserRouter>
 
         <AuthProvider>
-          <TratamientosProvider>
             <Routes>
 
               <Route index element={<LandinPage />} />
@@ -65,12 +64,12 @@ function App() {
                       <Route path='actualizar/:id' element={<Actualizar />} />
                       <Route path='perfil/:id' element={<PerfilEstudiante />} />
             		      <Route path='chat' element={<Chat />} />
+            		      <Route path='chat/:id' element={<ChatAmigo />} />
                     </Route>
                   </Routes>
                 </PrivateRoute>
               } />
             </Routes>
-          </TratamientosProvider>
         </AuthProvider>
       </BrowserRouter>
     </>

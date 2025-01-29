@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react"
 import PropTypes from "prop-types"
-import { UserIcon, UserMinusIcon } from "@heroicons/react/24/outline"
+import { ChatBubbleLeftRightIcon, UserIcon, UserMinusIcon } from "@heroicons/react/24/outline"
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
 import { useNavigate } from "react-router-dom"
 import AuthContext from "../../context/AuthProvider"
@@ -107,12 +107,20 @@ function ModalAmigos() {
                                 <UserIcon className="h-6 w-6 text-gray-700" />
                               </button>
                               {auth.amigos?.find((a) => a._id === amigo._id) && (
+                                <>
+                                <button
+                                  className="p-1 rounded-full hover:bg-gray-100"
+                                  onClick={() => navigate(`/dashboard/chat/${amigo._id}`)}
+                                >
+                                  <ChatBubbleLeftRightIcon className="h-6 w-6 text-gray-700" />
+                                </button>
                                 <button
                                   className="p-1 rounded-full hover:bg-gray-100"
                                   onClick={() => eliminarAmigo(amigo._id, amigo.usuario)}
                                 >
                                   <UserMinusIcon className="h-6 w-6 text-red-600" />
                                 </button>
+                                </>
                               )}
                             </div>
                           </li>
