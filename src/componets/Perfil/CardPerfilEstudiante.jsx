@@ -8,7 +8,7 @@ export const CardPerfilEstudiante = () => {
                         flex flex-col items-start justify-between shadow-xl rounded-lg min-w-[300px] flex-grow max-w-full">
 
             <div className="self-start mb-4">
-                <img src={auth?.fotoPerfil || "https://cdn-icons-png.flaticon.com/512/4715/4715329.png"} alt="img-client" className="m-auto rounded-3xl" width={120} height={120} />
+                <img src={auth?.fotoPerfil.url || "https://cdn-icons-png.flaticon.com/512/4715/4715329.png"} alt="img-client" className="m-auto rounded-3xl" width={120} height={120} />
             </div>
             <div className="self-start mb-2">
                 <b>Nombre:</b><p className="inline-block ml-3">{auth.nombre}</p>

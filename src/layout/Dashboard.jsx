@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom'
 import AuthContext from '../context/AuthProvider'
+import ModalAmigos from '../componets/Modals/ModalAmigos'
 
 
 const Dashboard = () => {
@@ -48,7 +49,10 @@ const Dashboard = () => {
                         Usuario - {auth?.usuario || auth?.rol}
                     </div>
                     <div>
-                        <img src={auth?.fotoPerfil||"https://cdn-icons-png.flaticon.com/512/4715/4715329.png"} alt="img-client" className="border-2 border-green-600 rounded-full" width={50} height={50} />
+                        <ModalAmigos />
+                    </div>
+                    <div>
+                        <img src={auth?.fotoPerfil.url||"https://cdn-icons-png.flaticon.com/512/4715/4715329.png"} alt="img-client" className="border-2 border-green-600 rounded-full" width={50} height={50} />
                     </div>
                     <div>
                         <Link to='/' className=" text-white mr-3 text-md block hover:bg-red-900 text-center

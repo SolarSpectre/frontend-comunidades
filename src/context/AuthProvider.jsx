@@ -74,6 +74,7 @@ const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             auth,
             setAuth,
+            perfil,
             actualizarPerfil,
             actualizarPassword
         }}>

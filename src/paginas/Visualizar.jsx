@@ -61,7 +61,9 @@ const VisualizarComunidad = () => {
   useEffect(() => {
     consultarComunidad();
   }, [consultarComunidad]);
-
+  if (!comunidad) {
+    return <div>Cargando...</div>;
+  }
   return (
     <>
       <ToastContainer />
@@ -183,9 +185,9 @@ const VisualizarComunidad = () => {
               </div>
             </>
           ) : (
-            <p className="text-red-500">
-              Error al mostrar los datos de la comunidad
-            </p>
+            <p >
+                Cargando...
+              </p>
           )}
         </div>
       </div>

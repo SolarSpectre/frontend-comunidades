@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { UserIcon, UserPlusIcon } from "@heroicons/react/24/outline";
+import {
+  UserIcon,
+  UserMinusIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/outline";
 import {
   Dialog,
   DialogPanel,
@@ -9,10 +13,54 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthProvider";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function ModalMiembros({ miembros }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { auth, perfil } = useContext(AuthContext);
+
+  const agregarAmigo = async (id, usuario) => {
+    try {
+      const token = localStorage.getItem("token");
+      const url = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/estudiante/${id}/agregar`;
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.post(url, { _id: auth?._id }, options);
+      toast.success(`Has agregado a ${usuario} exitosamente.`);
+      perfil(token);
+    } catch (error) {
+      toast.error(error.response.data.mensaje);
+    }
+  };
+  const eliminarAmigo = async (id, usuario) => {
+    try {
+      const token = localStorage.getItem("token");
+      const url = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/estudiante/${id}/eliminar`;
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.post(url, { _id: auth?._id }, options);
+      toast.success(`Has eliminado a ${usuario} exitosamente.`);
+      perfil(token);
+    } catch (error) {
+      toast.error(error.response.data.mensaje);
+    }
+  };
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -101,16 +149,28 @@ function ModalMiembros({ miembros }) {
                             >
                               <UserIcon className="h-6 w-6 text-gray-700" />
                             </button>
-                            <button
-                              className="p-1 rounded-full hover:bg-gray-100"
-                              onClick={() =>
-                                console.log(
-                                  `Agregar ${member.nombre} como amigo`
-                                )
-                              }
-                            >
-                              <UserPlusIcon className="h-6 w-6 text-gray-700" />
-                            </button>
+                            {member._id !== auth._id &&
+                              (auth.amigos?.find(
+                                (amigo) => amigo._id === member._id
+                              ) ? (
+                                <button
+                                  className="p-1 rounded-full hover:bg-gray-100"
+                                  onClick={() =>
+                                    eliminarAmigo(member._id, member.usuario)
+                                  }
+                                >
+                                  <UserMinusIcon className="h-6 w-6 text-red-600" />
+                                </button>
+                              ) : (
+                                <button
+                                  className="p-1 rounded-full hover:bg-gray-100"
+                                  onClick={() =>
+                                    agregarAmigo(member._id, member.usuario)
+                                  }
+                                >
+                                  <UserPlusIcon className="h-6 w-6 text-gray-700" />
+                                </button>
+                              ))}
                           </div>
                         </li>
                       ))}
