@@ -1,42 +1,50 @@
-import React, { useContext, useState } from "react"
-import PropTypes from "prop-types"
-import { ChatBubbleLeftRightIcon, UserIcon, UserMinusIcon } from "@heroicons/react/24/outline"
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
-import { useNavigate } from "react-router-dom"
-import AuthContext from "../../context/AuthProvider"
-import axios from "axios"
+import React, { useContext, useState } from "react";
+import PropTypes from "prop-types";
+import { LucideMessageCircle, User, UserRoundMinus } from "lucide-react";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthProvider";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 function ModalAmigos() {
-  const [isOpen, setIsOpen] = useState(false)
-  const navigate = useNavigate()
-  const { auth, perfil } = useContext(AuthContext)
-  const amigos = auth.amigos || []
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const { auth, perfil } = useContext(AuthContext);
+  const amigos = auth.amigos || [];
 
   const eliminarAmigo = async (id, usuario) => {
     try {
-      const token = localStorage.getItem("token")
-      const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/${id}/eliminar`
+      const token = localStorage.getItem("token");
+      const url = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/estudiante/${id}/eliminar`;
       const options = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
-      await axios.post(url, { _id: auth?._id }, options)
-      toast.success(`Has eliminado a ${usuario} exitosamente.`)
-      perfil(token)
+      };
+      await axios.post(url, { _id: auth?._id }, options);
+      toast.success(`Has eliminado a ${usuario} exitosamente.`);
+      perfil(token);
     } catch (error) {
-      toast.error(error.response.data.mensaje)
+      toast.error(error.response.data.mensaje);
     }
-  }
+  };
 
   function closeModal() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
   return (
@@ -79,47 +87,69 @@ function ModalAmigos() {
                 leaveTo="opacity-0 scale-95"
               >
                 <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <DialogTitle as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  <DialogTitle
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
                     Amigos
                   </DialogTitle>
                   <div className="mt-2">
                     {amigos.length > 0 ? (
                       <ul className="divide-y divide-gray-200">
                         {amigos.map((amigo) => (
-                          <li key={amigo._id} className="py-4 flex items-center justify-between">
+                          <li
+                            key={amigo._id}
+                            className="py-4 flex items-center justify-between"
+                          >
                             <div className="flex items-center">
                               <img
                                 className="h-10 w-10 rounded-full"
-                                src={amigo.fotoPerfil?.url || "/images/defaultprofile.jpg"}
+                                src={
+                                  amigo.fotoPerfil?.url ||
+                                  "/images/defaultprofile.jpg"
+                                }
                                 alt=""
                               />
                               <div className="ml-3">
-                                <p className="text-sm font-medium text-gray-900">{amigo.nombre}</p>
-                                <p className="text-sm text-gray-500">@{amigo.usuario}</p>
+                                <p className="text-sm font-medium text-gray-900">
+                                  {amigo.nombre}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  @{amigo.usuario}
+                                </p>
                               </div>
                             </div>
                             <div className="flex items-center space-x-2">
                               <button
                                 className="p-1 rounded-full hover:bg-gray-100"
-                                onClick={() => {closeModal() 
-                                  navigate(`/dashboard/perfil/${amigo._id}`)}}
+                                onClick={() => {
+                                  closeModal();
+                                  navigate(`/dashboard/perfil/${amigo._id}`);
+                                }}
                               >
-                                <UserIcon className="h-6 w-6 text-gray-700" />
+                                <User className="h-6 w-6 text-gray-700" />
                               </button>
-                              {auth.amigos?.find((a) => a._id === amigo._id) && (
+                              {auth.amigos?.find(
+                                (a) => a._id === amigo._id
+                              ) && (
                                 <>
-                                <button
-                                  className="p-1 rounded-full hover:bg-gray-100"
-                                  onClick={() => navigate(`/dashboard/chat/amigos`)}
-                                >
-                                  <ChatBubbleLeftRightIcon className="h-6 w-6 text-gray-700" />
-                                </button>
-                                <button
-                                  className="p-1 rounded-full hover:bg-gray-100"
-                                  onClick={() => eliminarAmigo(amigo._id, amigo.usuario)}
-                                >
-                                  <UserMinusIcon className="h-6 w-6 text-red-600" />
-                                </button>
+                                  <button
+                                    className="p-1 rounded-full hover:bg-gray-100"
+                                    onClick={() => {
+                                      closeModal();
+                                      navigate(`/dashboard/chat/amigos`);
+                                    }}
+                                  >
+                                    <LucideMessageCircle className="h-6 w-6 text-gray-700" />
+                                  </button>
+                                  <button
+                                    className="p-1 rounded-full hover:bg-gray-100"
+                                    onClick={() =>
+                                      eliminarAmigo(amigo._id, amigo.usuario)
+                                    }
+                                  >
+                                    <UserRoundMinus className="h-6 w-6 text-red-600" />
+                                  </button>
                                 </>
                               )}
                             </div>
@@ -128,7 +158,8 @@ function ModalAmigos() {
                       </ul>
                     ) : (
                       <p className="text-center text-gray-500 py-4">
-                        No tienes amigos agregados aún. ¡Comienza a conectar con otros usuarios!
+                        No tienes amigos agregados aún. ¡Comienza a conectar con
+                        otros usuarios!
                       </p>
                     )}
                   </div>
@@ -149,7 +180,7 @@ function ModalAmigos() {
         </Dialog>
       </Transition>
     </>
-  )
+  );
 }
 
 ModalAmigos.propTypes = {
@@ -162,8 +193,8 @@ ModalAmigos.propTypes = {
         url: PropTypes.string,
         public_id: PropTypes.string,
       }),
-    }),
+    })
   ),
-}
+};
 
-export default ModalAmigos
+export default ModalAmigos;

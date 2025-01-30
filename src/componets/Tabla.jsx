@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthProvider";
-import { MdDeleteForever, MdEdit, MdGroupAdd } from "react-icons/md";
-import { BsInfoCircleFill } from "react-icons/bs";
+import { Trash2, Pencil, CirclePlus, Info } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -103,11 +102,11 @@ const TablaComunidades = () => {
                 <td className="py-2 text-center">
                   {auth.rol === "Estudiante" && (
                     <>
-                      <MdGroupAdd
+                      <CirclePlus
                         className="h-7 w-7 text-blue-700 cursor-pointer inline-block mr-2"
                         onClick={() => unirseComunidad(comunidad._id)}
                       />
-                      <BsInfoCircleFill
+                      <Info
                         className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
                         onClick={() =>
                           navigate(`/dashboard/visualizar/${comunidad._id}`)
@@ -117,19 +116,19 @@ const TablaComunidades = () => {
                   )}
                   {auth.rol === "Administrador" && (
                     <>
-                      <BsInfoCircleFill
+                      <Info
                         className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
                         onClick={() =>
                           navigate(`/dashboard/visualizar/${comunidad._id}`)
                         }
                       />
-                      <MdEdit
+                      <Pencil
                         className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
                         onClick={() =>
                           navigate(`/dashboard/actualizar/${comunidad._id}`)
                         }
                       />
-                      <MdDeleteForever
+                      <Trash2
                         className="h-7 w-7 text-red-900 cursor-pointer inline-block"
                         onClick={() => eliminarComunidad(comunidad._id)}
                       />

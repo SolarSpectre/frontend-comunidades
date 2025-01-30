@@ -1,4 +1,4 @@
-import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
+import { MessageSquare } from "lucide-react";
 
 const NoChatSelected = () => {
   return (
@@ -11,7 +11,7 @@ const NoChatSelected = () => {
               className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center
              justify-center animate-bounce"
             >
-              <ChatBubbleOvalLeftIcon className="w-8 h-8 text-primary " />
+              <MessageSquare className="w-8 h-8 text-primary " />
             </div>
           </div>
         </div>

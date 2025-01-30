@@ -1,4 +1,4 @@
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { X } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 
@@ -28,7 +28,7 @@ const ChatHeader = () => {
 
         {/* Close button */}
         <button onClick={() => setSelectedUser(null)}>
-          <XMarkIcon />
+          <X />
         </button>
       </div>
     </div>

@@ -62,13 +62,13 @@ const Login = () => {
                         <div className="mb-3">
                             <label className="mb-2 block text-sm font-semibold">Email</label>
                             <input name='email'
-              value={form.email || ""} onChange={handleChange} type="email" placeholder="Enter you email" className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-2 text-gray-500" />
+              value={form.email || ""} onChange={handleChange} type="email" placeholder="Enter you email" className="block w-full rounded-md border  focus:outline-none focus:ring-1 py-1 px-2 text-gray-500" />
                         </div>
 
                         <div className="mb-3">
                             <label className="mb-2 block text-sm font-semibold">Password</label>
                             <input  name='password'
-              value={form.password || ""} onChange={handleChange} type="password" placeholder="********************" className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-2 text-gray-500" />
+              value={form.password || ""} onChange={handleChange} type="password" placeholder="********************" className="block w-full rounded-md border  focus:outline-none focus:ring-1 py-1 px-2 text-gray-500" />
                         </div>
 
                         <div className="my-4">

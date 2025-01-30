@@ -20,19 +20,15 @@ import LandinPage from "./paginas/LandinPage";
 import RegisterAdmin from "./paginas/RegisterAdmin";
 import ForoComunidad from "./paginas/comunidades/Foro";
 import { PerfilEstudiante } from "./paginas/PerfilEstudiante";
-import ChatAmigos from "./Chat/pages/HomePage";
+import ChatAmigos from "./Chat/pages/ChatAmigos";
 import { Toaster } from "react-hot-toast";
-import { useThemeStore } from "./Chat/store/useThemeStore";
 import Configuracion from "./paginas/Configuracion";
 
 
 function App() {
-  const { theme } = useThemeStore();
-
   return (
     <>
       <BrowserRouter>
-      <div data-theme={theme}>
         <Toaster />
         <AuthProvider>
           <Routes>
@@ -88,7 +84,6 @@ function App() {
             />
           </Routes>
         </AuthProvider>
-        </div>
       </BrowserRouter>
     </>
   );

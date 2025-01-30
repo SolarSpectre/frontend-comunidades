@@ -11,6 +11,7 @@ const Dashboard = () => {
 
     const location = useLocation()
     const urlActual = location.pathname
+    const isChatAmigosRoute = location.pathname === "/dashboard/chat/amigos";
     return (
         <div className='md:flex md:min-h-screen'>
 
@@ -59,7 +60,7 @@ const Dashboard = () => {
                         bg-red-800 px-4 py-1 rounded-lg" onClick={()=>{localStorage.removeItem('token')}}>Salir</Link>
                     </div>
                 </div>
-                <div className='overflow-y-scroll p-8'>
+                <div className={isChatAmigosRoute ? "" : "overflow-y-scroll p-8"}>
                     {autenticado ? <Outlet /> :<Navigate to="/login"/> }
                 </div>
                 <div className='bg-gray-800 h-12'>

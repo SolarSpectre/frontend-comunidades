@@ -1,10 +1,14 @@
 import { THEMES } from "../Chat/constants";
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { Send } from "lucide-react";
 import { useThemeStore } from "../Chat/store/useThemeStore";
 
 const PREVIEW_MESSAGES = [
   { id: 1, content: "Hey! How's it going?", isSent: false },
-  { id: 2, content: "I'm doing great! Just working on some new features.", isSent: true },
+  {
+    id: 2,
+    content: "I'm doing great! Just working on some new features.",
+    isSent: true,
+  },
 ];
 
 const Configuracion = () => {
@@ -15,7 +19,9 @@ const Configuracion = () => {
       <div className="space-y-6">
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold">Theme</h2>
-          <p className="text-sm text-base-content/70">Choose a theme for your chat interface</p>
+          <p className="text-sm text-base-content/70">
+            Choose a theme for your chat interface
+          </p>
         </div>
 
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
@@ -28,7 +34,10 @@ const Configuracion = () => {
               `}
               onClick={() => setTheme(t)}
             >
-              <div className="relative h-8 w-full rounded-md overflow-hidden" data-theme={t}>
+              <div
+                className="relative h-8 w-full rounded-md overflow-hidden"
+                data-theme={t}
+              >
                 <div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
                   <div className="rounded bg-primary"></div>
                   <div className="rounded bg-secondary"></div>
@@ -45,7 +54,7 @@ const Configuracion = () => {
 
         {/* Preview Section */}
         <h3 className="text-lg font-semibold mb-3">Preview</h3>
-        <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-lg">
+        <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-lg" data-theme={theme}>
           <div className="p-4 bg-base-200">
             <div className="max-w-lg mx-auto">
               {/* Mock Chat UI */}
@@ -68,19 +77,29 @@ const Configuracion = () => {
                   {PREVIEW_MESSAGES.map((message) => (
                     <div
                       key={message.id}
-                      className={`flex ${message.isSent ? "justify-end" : "justify-start"}`}
+                      className={`flex ${
+                        message.isSent ? "justify-end" : "justify-start"
+                      }`}
                     >
                       <div
                         className={`
                           max-w-[80%] rounded-xl p-3 shadow-sm
-                          ${message.isSent ? "bg-primary text-primary-content" : "bg-base-200"}
+                          ${
+                            message.isSent
+                              ? "bg-primary text-primary-content"
+                              : "bg-base-200"
+                          }
                         `}
                       >
                         <p className="text-sm">{message.content}</p>
                         <p
                           className={`
                             text-[10px] mt-1.5
-                            ${message.isSent ? "text-primary-content/70" : "text-base-content/70"}
+                            ${
+                              message.isSent
+                                ? "text-primary-content/70"
+                                : "text-base-content/70"
+                            }
                           `}
                         >
                           12:00 PM
@@ -101,7 +120,7 @@ const Configuracion = () => {
                       readOnly
                     />
                     <button className="btn btn-primary h-10 min-h-0">
-                      <PaperAirplaneIcon size={18} />
+                      <Send size={18} />
                     </button>
                   </div>
                 </div>

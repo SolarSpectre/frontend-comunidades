@@ -1,10 +1,6 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  UserIcon,
-  UserMinusIcon,
-  UserPlusIcon,
-} from "@heroicons/react/24/outline";
+import { User, UserRoundMinus, UserRoundPlus } from 'lucide-react';
 import {
   Dialog,
   DialogPanel,
@@ -147,7 +143,7 @@ function ModalMiembros({ miembros }) {
                                 navigate(`/dashboard/perfil/${member._id}`)
                               }
                             >
-                              <UserIcon className="h-6 w-6 text-gray-700" />
+                              <User className="h-6 w-6 text-gray-700" />
                             </button>
                             {member._id !== auth._id &&
                               (auth.amigos?.find(
@@ -159,7 +155,7 @@ function ModalMiembros({ miembros }) {
                                     eliminarAmigo(member._id, member.usuario)
                                   }
                                 >
-                                  <UserMinusIcon className="h-6 w-6 text-red-600" />
+                                  <UserRoundMinus className="h-6 w-6 text-red-600" />
                                 </button>
                               ) : (
                                 <button
@@ -168,7 +164,7 @@ function ModalMiembros({ miembros }) {
                                     agregarAmigo(member._id, member.usuario)
                                   }
                                 >
-                                  <UserPlusIcon className="h-6 w-6 text-gray-700" />
+                                  <UserRoundPlus className="h-6 w-6 text-gray-700" />
                                 </button>
                               ))}
                           </div>

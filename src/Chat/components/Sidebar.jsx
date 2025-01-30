@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
-import { UsersIcon } from "@heroicons/react/24/outline";
+import { Cog, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
   const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
-
+  const [isSpinning, setIsSpinning] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     getUsers();
   }, [getUsers]);
@@ -33,8 +35,14 @@ const Sidebar = () => {
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
       <div className="border-b border-base-300 w-full p-5">
         <div className="flex items-center gap-2">
-          <UsersIcon className="size-6" />
+          <Users className="size-6" />
           <span className="font-medium hidden lg:block">Contactos</span>
+          <Cog className="size-6 ml-auto cursor-pointer hover:animate-spin"
+        onClick={() => {
+          setIsSpinning(true);
+          setTimeout(() => setIsSpinning(false), 3000);
+          navigate('/dashboard/configuracion');
+        }}/>
         </div>
         <div className="mt-3 hidden lg:flex items-center gap-2">
           <label className="cursor-pointer flex items-center gap-2">
