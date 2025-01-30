@@ -11,17 +11,15 @@ const MessageInput = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (!file.type.startsWith("image/")) {
+    if (!file?.type.startsWith("image/")) {
       toast.error("Please select an image file");
       return;
     }
-
+    // Preview the image before sending
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
+    reader.onloadend = () => setImagePreview(reader.result);
     reader.readAsDataURL(file);
-  };
+  };  
 
   const removeImage = () => {
     setImagePreview(null);
@@ -31,13 +29,17 @@ const MessageInput = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
-
+  
     try {
-      await sendMessage({
-        texto: text.trim(),
-        imagen: imagePreview,
-      });
-
+      const formData = new FormData();
+      formData.append("texto", text.trim());
+  
+      if (fileInputRef.current?.files[0]) {
+        formData.append("imagen", fileInputRef.current.files[0]);
+      }
+  
+      await sendMessage(formData);
+  
       // Clear form
       setText("");
       setImagePreview(null);
@@ -45,7 +47,7 @@ const MessageInput = () => {
     } catch (error) {
       console.error("Failed to send message:", error);
     }
-  };
+  };  
 
   return (
     <>

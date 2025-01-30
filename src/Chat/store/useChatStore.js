@@ -14,7 +14,9 @@ export const useChatStore = create((set, get) => ({
     set({ isUsersLoading: true });
     try {
       const token = useAuthStore.getState().token;
-      const res = await axiosInstance.get("/mensaje/usuarios",{headers: {Authorization: `Bearer ${token}`,},});
+      const res = await axiosInstance.get("/mensaje/usuarios", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       console.log(res.data);
       set({ users: res.data });
     } catch (error) {
@@ -28,7 +30,9 @@ export const useChatStore = create((set, get) => ({
     set({ isMessagesLoading: true });
     try {
       const token = useAuthStore.getState().token;
-      const res = await axiosInstance.get(`/mensaje/${userId}`,{headers: {Authorization: `Bearer ${token}`,},});
+      const res = await axiosInstance.get(`/mensaje/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       set({ messages: res.data });
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
@@ -40,7 +44,16 @@ export const useChatStore = create((set, get) => ({
     const { selectedUser, messages } = get();
     try {
       const token = useAuthStore.getState().token;
-      const res = await axiosInstance.post(`/mensaje/enviar/${selectedUser._id}`, messageData,{headers: {Authorization: `Bearer ${token}`,},});
+      const res = await axiosInstance.post(
+        `/mensaje/enviar/${selectedUser._id}`,
+        messageData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       set({ messages: [...messages, res.data] });
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
@@ -54,7 +67,8 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
 
     socket.on("newMessage", (newMessage) => {
-      const isMessageSentFromSelectedUser = newMessage.emisor === selectedUser._id;
+      const isMessageSentFromSelectedUser =
+        newMessage.emisor === selectedUser._id;
       if (!isMessageSentFromSelectedUser) return;
 
       set({
