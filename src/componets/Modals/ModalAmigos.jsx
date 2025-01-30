@@ -5,7 +5,7 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@
 import { useNavigate } from "react-router-dom"
 import AuthContext from "../../context/AuthProvider"
 import axios from "axios"
-import { toast } from "react-toastify"
+import toast from "react-hot-toast";
 
 function ModalAmigos() {
   const [isOpen, setIsOpen] = useState(false)
@@ -110,7 +110,7 @@ function ModalAmigos() {
                                 <>
                                 <button
                                   className="p-1 rounded-full hover:bg-gray-100"
-                                  onClick={() => navigate(`/dashboard/chat/${amigo._id}`)}
+                                  onClick={() => navigate(`/dashboard/chat/amigos`)}
                                 >
                                   <ChatBubbleLeftRightIcon className="h-6 w-6 text-gray-700" />
                                 </button>

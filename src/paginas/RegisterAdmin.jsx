@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const RegisterAdmin = () => {
   const [form, setForm] = useState({
@@ -34,7 +34,7 @@ export const RegisterAdmin = () => {
 
   return (
     <>
-      <ToastContainer />
+      
       <form onSubmit={handleSubmit}>
             <div>
                 <label

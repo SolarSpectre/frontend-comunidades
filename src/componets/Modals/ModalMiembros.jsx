@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthProvider";
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 function ModalMiembros({ miembros }) {
   const [isOpen, setIsOpen] = useState(false);

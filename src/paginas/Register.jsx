@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const Register = () => {
   const [form, setForm] = useState({
@@ -61,7 +61,7 @@ export const Register = () => {
 
   return (
     <>
-      <ToastContainer />
+      
       <div className="bg-white flex justify-center items-start w-1/2">
         <div className="md:w-4/5 sm:w-full">
           <h1 className="text-3xl font-semibold mb-2 text-center uppercase text-gray-500">

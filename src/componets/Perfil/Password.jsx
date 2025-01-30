@@ -1,6 +1,6 @@
 
 import { useState,useContext } from "react"
-import { toast, ToastContainer } from "react-toastify"
+import toast from "react-hot-toast";
 import AuthContext from "../../context/AuthProvider"
 
 const Password = () => {
@@ -35,7 +35,7 @@ const Password = () => {
 
     return (
         <>
-            <ToastContainer />
+            
             <div className='mt-5'>
                 <h1 className='font-black text-4xl text-gray-500'>Password</h1>
                 <hr className='my-4' />

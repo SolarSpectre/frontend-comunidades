@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import AuthContext from "../../context/AuthProvider"
-import { toast, ToastContainer } from "react-toastify"
+import toast from "react-hot-toast";
 
 
 const FormularioPerfil = () => {
@@ -32,7 +32,7 @@ const FormularioPerfil = () => {
 
     return (
         <>
-            <ToastContainer />
+            
             <form onSubmit={handleSubmit}>
                 <div>
                     <label

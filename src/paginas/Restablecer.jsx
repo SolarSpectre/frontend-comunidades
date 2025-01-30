@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
+import toast from "react-hot-toast";
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -57,7 +57,7 @@ const Restablecer = () => {
     return (
 
         <div className="flex flex-col items-center justify-center">
-            <ToastContainer />
+            
             <h1 className="text-3xl font-semibold mb-2 text-center uppercase  text-gray-500">Welcome again</h1>
             <small className="text-gray-400 block my-4 text-sm">Please enter your details</small>
             <img className="object-cover h-80 w-80 rounded-full border-4 border-solid border-slate-600" src='/images/recuperar.jpg' alt="image description" />

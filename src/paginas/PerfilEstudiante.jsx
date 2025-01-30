@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const PerfilEstudiante = () => {
   const { id } = useParams(); // Obtener el ID del estudiante de la URL

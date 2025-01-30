@@ -4,7 +4,7 @@ import { MdDeleteForever, MdEdit, MdGroupAdd } from "react-icons/md";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import toast from "react-hot-toast";
 
 const TablaComunidades = () => {
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ const TablaComunidades = () => {
 
   return (
     <>
-      <ToastContainer />
+      
       {comunidades.length === 0 ? (
         <p>No existen comunidades registradas.</p>
       ) : (

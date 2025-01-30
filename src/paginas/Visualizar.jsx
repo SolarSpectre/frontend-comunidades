@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import toast from "react-hot-toast";
 import AuthContext from "../context/AuthProvider";
 import ModalMiembros from "../componets/Modals/ModalMiembros";
 
@@ -66,7 +66,7 @@ const VisualizarComunidad = () => {
   }
   return (
     <>
-      <ToastContainer />
+      
       <div>
         <h1 className="font-black text-4xl text-gray-500">
           Visualizar Comunidad

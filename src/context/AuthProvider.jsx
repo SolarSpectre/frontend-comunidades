@@ -1,11 +1,13 @@
 import axios from "axios"
 import { createContext, useEffect, useState } from "react"
+import { useAuthStore } from "../Chat/store/useAuthStore"
 
 const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
     // Intentamos obtener el auth desde el localStorage
     const storedAuth = localStorage.getItem('auth')
+    const {setToken}=useAuthStore();
     const [auth, setAuth] = useState(storedAuth ? JSON.parse(storedAuth) : {})
 
     const actualizarPassword = async (datos) => {
@@ -58,6 +60,8 @@ const AuthProvider = ({ children }) => {
             const respuesta = await axios.get(url, options)
             setAuth(respuesta.data)
             localStorage.setItem("auth", JSON.stringify(respuesta.data))
+            localStorage.setItem('token', respuesta.data.token)
+            setToken(respuesta.data.token);
         } catch (error) {
             console.log(error)
         }

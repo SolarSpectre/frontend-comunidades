@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import {Link} from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
+import toast from "react-hot-toast";
 
 
 export const Forgot = () => {
@@ -22,7 +22,7 @@ export const Forgot = () => {
 
     return (
         <>
-            <ToastContainer />
+            
             <div className="bg-white flex justify-center items-center w-1/2">
 
                 <div className="md:w-4/5 sm:w-full">

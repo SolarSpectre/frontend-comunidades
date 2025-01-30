@@ -2,11 +2,13 @@ import axios from 'axios'
 import { useState,useContext } from 'react'
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
+import toast from "react-hot-toast";
+
 import AuthContext from '../context/AuthProvider'
+import { useAuthStore } from '../Chat/store/useAuthStore';
 
 const Login = () => {
-
+    const {login}=useAuthStore();
     const navigate = useNavigate()
     const {setAuth,setEstado} = useContext(AuthContext)
 
@@ -29,6 +31,7 @@ const Login = () => {
         try {
             const respuesta = await axios.post(url, form)
             localStorage.setItem('token', respuesta.data.token)
+            login(form);
             setAuth(respuesta.data)
             localStorage.setItem("auth", JSON.stringify(respuesta.data))
             navigate('/dashboard')
@@ -41,7 +44,7 @@ const Login = () => {
 
     return (
         <>
-        <ToastContainer />
+        
             <div className="w-1/2 h-screen bg-[url('/images/doglogin.jpg')] 
             bg-no-repeat bg-cover bg-center sm:block
             ">
