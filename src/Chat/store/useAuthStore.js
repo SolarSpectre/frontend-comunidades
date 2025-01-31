@@ -4,7 +4,7 @@ import { axiosInstance } from "../lib/axios.js";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
+const BASE_URL = import.meta.env.VITE_BACKEND_SOCKET;
 
 export const useAuthStore = create(
   persist(
@@ -20,17 +20,21 @@ export const useAuthStore = create(
       actualizarPassword: async (datos) => {
         try {
           const { token, authUser } = get();
-          const endpoint = authUser?.rol === 'Administrador' 
-            ? "/administrador/actualizarpassword" 
-            : "/estudiante/actualizarpassword";
-          
+          const endpoint =
+            authUser?.rol === "Administrador"
+              ? "/administrador/actualizarpassword"
+              : "/estudiante/actualizarpassword";
+
           const respuesta = await axiosInstance.put(endpoint, datos, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
           });
-          
+
           return { msg: respuesta.data.msg, ok: true };
         } catch (error) {
-          return { msg: error.response?.data?.msg || "Error al actualizar", ok: false };
+          return {
+            msg: error.response?.data?.msg || "Error al actualizar",
+            ok: false,
+          };
         }
       },
 
@@ -38,19 +42,23 @@ export const useAuthStore = create(
       actualizarPerfil: async (datos) => {
         try {
           const { token, authUser } = get();
-          const endpoint = authUser?.rol === 'Administrador' 
-            ? `/administrador/${datos.id}` 
-            : `/estudiante/actualizar/${datos.id}`;
-          
+          const endpoint =
+            authUser?.rol === "Administrador"
+              ? `/administrador/${datos.id}`
+              : `/estudiante/actualizar/${datos.id}`;
+
           const respuesta = await axiosInstance.put(endpoint, datos, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
           });
-          
+
           // Actualizar datos locales después de la modificación
           await get().checkAuth();
           return { msg: respuesta.data.msg, ok: true };
         } catch (error) {
-          return { msg: error.response?.data?.msg || "Error al actualizar", ok: false };
+          return {
+            msg: error.response?.data?.msg || "Error al actualizar",
+            ok: false,
+          };
         }
       },
 
@@ -58,20 +66,21 @@ export const useAuthStore = create(
         try {
           const { token, authUser } = get();
           if (!token) throw new Error("No autenticado");
-          
-          const endpoint = authUser?.rol === 'Administrador' 
-            ? "/admin/perfil" 
-            : "/estudiante/perfil";
-          
+
+          const endpoint =
+            authUser?.rol === "Administrador"
+              ? "/admin/perfil"
+              : "/estudiante/perfil";
+
           const respuesta = await axiosInstance.get(endpoint, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
           });
-          
-          set({ 
-            authUser: { ...respuesta.data},
-            token: respuesta.data.token 
+
+          set({
+            authUser: { ...respuesta.data },
+            token: respuesta.data.token,
           });
-          
+
           get().connectSocket();
           return true;
         } catch (error) {
@@ -83,12 +92,12 @@ export const useAuthStore = create(
         try {
           const endpoint = isAdmin ? "/login" : "/estudiante/login";
           const res = await axiosInstance.post(endpoint, data);
-          
-          set({ 
-            authUser: { ...res.data},
-            token: res.data.token
+
+          set({
+            authUser: { ...res.data },
+            token: res.data.token,
           });
-          
+
           get().connectSocket();
           toast.success(`Bienvenido ${res.data.nombre}`);
         } catch (error) {
@@ -97,7 +106,7 @@ export const useAuthStore = create(
       },
       logout: async () => {
         try {
-          set({ authUser: null, token: null  });
+          set({ authUser: null, token: null });
           toast.success("Hasta luego!");
           get().disconnectSocket();
         } catch (error) {
@@ -108,6 +117,8 @@ export const useAuthStore = create(
         const { authUser } = get();
         if (!authUser || get().socket?.connected) return;
         const socket = io(BASE_URL, {
+          transports: ["websocket"], // Force WebSocket transport
+          withCredentials: true,
           query: {
             userId: authUser._id,
           },
