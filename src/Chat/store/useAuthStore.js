@@ -98,7 +98,7 @@ export const useAuthStore = create(
       logout: async () => {
         try {
           set({ authUser: null, token: null  });
-          toast.success("Logged out successfully");
+          toast.success("Hasta luego!");
           get().disconnectSocket();
         } catch (error) {
           toast.error(error.response.data.message);
