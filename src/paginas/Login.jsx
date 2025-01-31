@@ -1,16 +1,13 @@
-import axios from 'axios'
-import { useState,useContext } from 'react'
+import { useState } from 'react'
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import toast from "react-hot-toast";
 
-import AuthContext from '../context/AuthProvider'
 import { useAuthStore } from '../Chat/store/useAuthStore';
 
 const Login = () => {
-    const {login}=useAuthStore();
+    useAuthStore();
     const navigate = useNavigate()
-    const {setAuth,setEstado} = useContext(AuthContext)
 
     const [form, setform] = useState({
         email: "",
@@ -24,23 +21,25 @@ const Login = () => {
     }
 
 	const handleSubmit = async (e) => {
-        e.preventDefault()
-        const url = form.password.includes("estud")
-            ? `${import.meta.env.VITE_BACKEND_URL}/estudiante/login`
-            : `${import.meta.env.VITE_BACKEND_URL}/login`
+        e.preventDefault();
+        const isStudent = form.password.includes("estud");
+        
         try {
-            const respuesta = await axios.post(url, form)
-            localStorage.setItem('token', respuesta.data.token)
-            login(form);
-            setAuth(respuesta.data)
-            localStorage.setItem("auth", JSON.stringify(respuesta.data))
-            navigate('/dashboard')
+          if (isStudent) {
+            await useAuthStore.getState().login(form,false);
+          } else {
+            await useAuthStore.getState().login(form,true);
+          }
+          
+          await useAuthStore.getState().checkAuth();
+          navigate('/dashboard');
+          
         } catch (error) {
-            console.error(error)
-            toast(error.response.data.msg)
-            setform({})
+          console.error(error);
+          toast(error.response?.data?.msg || "Error de autenticación");
+          setform({});
         }
-    }
+      };
 
     return (
         <>
@@ -98,7 +97,7 @@ const Login = () => {
                     </div>
 
                     <div className="mt-3 text-sm flex justify-between items-center">
-                        <p>Don't have an account?</p>
+                        <p>No tienes cuenta?</p>
                         <Link to="/register" className="py-2 px-5 bg-gray-600 text-slate-300 border rounded-xl hover:scale-110 duration-300 hover:bg-gray-900 hover:text-white">Register</Link>
 
                     </div>

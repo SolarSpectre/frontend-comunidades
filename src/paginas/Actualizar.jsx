@@ -2,11 +2,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
+import { useAuthStore } from '../Chat/store/useAuthStore';
 
 const Actualizar = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+  const { token, authUser } = useAuthStore();
   const [form, setForm] = useState({
     nombre: '',
     descripcion: '',
@@ -21,7 +22,6 @@ const Actualizar = () => {
   useEffect(() => {
     const fetchComunidad = async () => {
       try {
-        const token = localStorage.getItem("token");
         if (!token) {
           toast.error("No hay token de autorización");
           return;
@@ -46,7 +46,7 @@ const Actualizar = () => {
     };
 
     fetchComunidad();
-  }, [id]);
+  }, [id,token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,14 +65,12 @@ const Actualizar = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
       if (!token) {
         toast.error("No hay token de autorización");
         return;
       }
 
-      const auth = JSON.parse(localStorage.getItem("auth"));
-      const administrador = auth?._id;
+      const administrador = authUser?._id;
       if (!administrador) {
         toast.error("No se encontró el administrador. Inicie sesión nuevamente.");
         return;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { User, UserRoundMinus, UserRoundPlus } from 'lucide-react';
 import {
@@ -9,18 +9,17 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
+import {useAuthStore} from "../../Chat/store/useAuthStore"
 
 function ModalMiembros({ miembros }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { auth, perfil } = useContext(AuthContext);
+  const { authUser, token, checkAuth } = useAuthStore();
 
   const agregarAmigo = async (id, usuario) => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${
         import.meta.env.VITE_BACKEND_URL
       }/estudiante/${id}/agregar`;
@@ -30,16 +29,15 @@ function ModalMiembros({ miembros }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.post(url, { _id: auth?._id }, options);
+      await axios.post(url, { _id: authUser?._id }, options);
       toast.success(`Has agregado a ${usuario} exitosamente.`);
-      perfil(token);
+      checkAuth();
     } catch (error) {
       toast.error(error.response.data.mensaje);
     }
   };
   const eliminarAmigo = async (id, usuario) => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${
         import.meta.env.VITE_BACKEND_URL
       }/estudiante/${id}/eliminar`;
@@ -49,9 +47,9 @@ function ModalMiembros({ miembros }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.post(url, { _id: auth?._id }, options);
+      await axios.post(url, { _id: authUser?._id }, options);
       toast.success(`Has eliminado a ${usuario} exitosamente.`);
-      perfil(token);
+      checkAuth();
     } catch (error) {
       toast.error(error.response.data.mensaje);
     }
@@ -145,8 +143,8 @@ function ModalMiembros({ miembros }) {
                             >
                               <User className="h-6 w-6 text-gray-700" />
                             </button>
-                            {member._id !== auth._id &&
-                              (auth.amigos?.find(
+                            {member._id !== authUser._id &&
+                              (authUser.amigos?.find(
                                 (amigo) => amigo._id === member._id
                               ) ? (
                                 <button

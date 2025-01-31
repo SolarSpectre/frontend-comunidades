@@ -1,17 +1,17 @@
-import { useContext, useState } from "react"
-import AuthContext from "../../context/AuthProvider"
+import { useState } from "react"
 import toast from "react-hot-toast";
+import { useAuthStore } from "../../Chat/store/useAuthStore";
 
 
 const FormularioPerfil = () => {
-    const {auth,actualizarPerfil} = useContext(AuthContext)
+    const {authUser,actualizarPerfil} = useAuthStore()
     const [form, setform] = useState({
-        id: auth._id,
-        nombre: auth.nombre || "",
-        apellido: auth.apellido || "",
-        direccion: auth.direccion || "",
-        telefono: auth.telefono || "",
-        email: auth.email || ""
+        id: authUser._id,
+        nombre: authUser.nombre || "",
+        apellido: authUser.apellido || "",
+        direccion: authUser.direccion || "",
+        telefono: authUser.telefono || "",
+        email: authUser.email || ""
     })
 
     const handleChange = (e) => {

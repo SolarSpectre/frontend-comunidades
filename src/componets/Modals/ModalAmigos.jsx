@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { LucideMessageCircle, User, UserRoundMinus } from "lucide-react";
 import {
@@ -9,19 +9,18 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../../Chat/store/useAuthStore";
 
 function ModalAmigos() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { auth, perfil } = useContext(AuthContext);
-  const amigos = auth.amigos || [];
+  const { authUser, checkAuth,token } = useAuthStore();
+  const amigos = authUser.amigos || [];
 
   const eliminarAmigo = async (id, usuario) => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${
         import.meta.env.VITE_BACKEND_URL
       }/estudiante/${id}/eliminar`;
@@ -31,9 +30,9 @@ function ModalAmigos() {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.post(url, { _id: auth?._id }, options);
+      await axios.post(url, { _id: authUser?._id }, options);
       toast.success(`Has eliminado a ${usuario} exitosamente.`);
-      perfil(token);
+      checkAuth();
     } catch (error) {
       toast.error(error.response.data.mensaje);
     }
@@ -129,7 +128,7 @@ function ModalAmigos() {
                               >
                                 <User className="h-6 w-6 text-gray-700" />
                               </button>
-                              {auth.amigos?.find(
+                              {authUser.amigos?.find(
                                 (a) => a._id === amigo._id
                               ) && (
                                 <>

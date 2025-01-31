@@ -1,19 +1,18 @@
-import { useContext, useEffect, useState } from "react";
-import AuthContext from "../context/AuthProvider";
+import { useEffect, useState } from "react";
 import { Trash2, Pencil, CirclePlus, Info } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../Chat/store/useAuthStore";
 
 const TablaComunidades = () => {
   const navigate = useNavigate();
-  const { auth } = useContext(AuthContext); // Información del usuario autenticado
+  const { authUser,token } = useAuthStore(); // Información del usuario autenticado
   const [comunidades, setComunidades] = useState([]);
 
   // Función para obtener todas las comunidades
   const listarComunidades = async () => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${import.meta.env.VITE_BACKEND_URL}/comunidades`;
       const options = {
         headers: {
@@ -33,7 +32,6 @@ const TablaComunidades = () => {
     try {
       const confirmar = confirm("¿Estás seguro de eliminar esta comunidad?");
       if (confirmar) {
-        const token = localStorage.getItem("token");
         const url = `${import.meta.env.VITE_BACKEND_URL}/comunidades/${id}`;
         const options = {
           headers: {
@@ -52,7 +50,6 @@ const TablaComunidades = () => {
   // Función para unirse a una comunidad (solo estudiantes)
   const unirseComunidad = async (id) => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${
         import.meta.env.VITE_BACKEND_URL
       }/comunidades/${id}/unirse`;
@@ -62,7 +59,7 @@ const TablaComunidades = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.post(url, { _id: auth?._id }, options);
+      await axios.post(url, { _id: authUser?._id }, options);
       toast.success("Te has unido a la comunidad exitosamente.");
     } catch (error) {
       console.error("Error al unirse a la comunidad:", error);
@@ -100,7 +97,7 @@ const TablaComunidades = () => {
                 <td>{comunidad.descripcion}</td>
                 <td>{comunidad.tipo}</td>
                 <td className="py-2 text-center">
-                  {auth.rol === "Estudiante" && (
+                  {authUser.rol === "Estudiante" && (
                     <>
                       <CirclePlus
                         className="h-7 w-7 text-blue-700 cursor-pointer inline-block mr-2"
@@ -114,7 +111,7 @@ const TablaComunidades = () => {
                       />
                     </>
                   )}
-                  {auth.rol === "Administrador" && (
+                  {authUser.rol === "Administrador" && (
                     <>
                       <Info
                         className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"

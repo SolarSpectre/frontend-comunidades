@@ -13,7 +13,6 @@ import Perfil from "./paginas/Perfil";
 import { Confirmar } from "./paginas/Confirmar";
 import Restablecer from "./paginas/Restablecer";
 import { PrivateRoute } from "./routes/PrivateRoute";
-import { AuthProvider } from "./context/AuthProvider";
 import PrivateRouteWithRole from "./routes/PrivateRouteWithRole";
 import Chat from "./paginas/Chat";
 import LandinPage from "./paginas/LandinPage";
@@ -23,14 +22,19 @@ import { PerfilEstudiante } from "./paginas/PerfilEstudiante";
 import ChatAmigos from "./Chat/pages/ChatAmigos";
 import { Toaster } from "react-hot-toast";
 import Configuracion from "./paginas/Configuracion";
+import { useEffect } from "react";
+import { useAuthStore } from "./Chat/store/useAuthStore";
 
 
 function App() {
+  const {checkAuth} =useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
   return (
     <>
       <BrowserRouter>
         <Toaster />
-        <AuthProvider>
           <Routes>
             <Route index element={<LandinPage />} />
 
@@ -83,7 +87,6 @@ function App() {
               }
             />
           </Routes>
-        </AuthProvider>
       </BrowserRouter>
     </>
   );

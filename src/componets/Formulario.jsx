@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../Chat/store/useAuthStore";
 
 export const Formulario = () => {
   const [form, setForm] = useState({
@@ -11,7 +12,7 @@ export const Formulario = () => {
     carreraRelacionada:"",
     interesesRelacionados:[],
   });
-
+  const {token, authUser} = useAuthStore();
   const [imagen, setImagen] = useState(null); // Estado para la imagen de logo
   const navigate = useNavigate();
 
@@ -38,14 +39,12 @@ export const Formulario = () => {
   e.preventDefault();
   
   try {
-    const token = localStorage.getItem("token");
     if (!token) {
       toast.error("No hay token de autorización");
       return;
     }
 
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    const administrador = auth?._id;
+    const administrador = authUser?._id;
 
     if (!administrador) {
       toast.error("No se encontró el administrador. Inicie sesión nuevamente.");

@@ -1,37 +1,49 @@
 
-import { useState,useContext } from "react"
+import { useState } from "react"
 import toast from "react-hot-toast";
-import AuthContext from "../../context/AuthProvider"
+import { useAuthStore } from "../../Chat/store/useAuthStore";
 
 const Password = () => {
-    const {actualizarPassword} = useContext(AuthContext)
-    const {_id} = JSON.parse(localStorage.getItem('auth'))
+    const { actualizarPassword, authUser } = useAuthStore();
     const [form, setForm] = useState({
         passwordactual: "",
         passwordnuevo: "",
-        _id: _id
-    })
+        _id: authUser?._id || ""
+    });
 
     const handleChange = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value
-        })
-    }
+        });
+    };
+
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        
         if (Object.values(form).includes("")) {
-            toast.error("Todos los campos deben ser ingresados")
-            return
+            toast.error("Todos los campos deben ser ingresados");
+            return;
         }
+        
         if (form.passwordnuevo.length < 6) {
-            toast.error("El password debe tener mínimo 6 carácteres")
-            return
+            toast.error("El password debe tener mínimo 6 carácteres");
+            return;
         }
-        const resultado = await actualizarPassword(form)
-        toast.success(resultado.respuesta)
-        setForm({...form, passwordactual: "", passwordnuevo: ""})
-    }
+
+        const resultado = await actualizarPassword(form);
+        
+        if (resultado.ok) {
+            toast.success(resultado.msg);
+            setForm({
+                ...form,
+                passwordactual: "",
+                passwordnuevo: ""
+            });
+        } else {
+            toast.error(resultado.msg);
+        }
+    };
 
     return (
         <>

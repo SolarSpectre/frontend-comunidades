@@ -1,10 +1,8 @@
-import { useContext, useEffect } from "react";
-import AuthContext from "../../context/AuthProvider";
+import { useEffect } from "react";
 import { useAuthStore } from "../../Chat/store/useAuthStore";
 
 export const CardPerfilEstudiante = () => {
-  const { auth } = useContext(AuthContext);
-  const { checkAuth } = useAuthStore();
+  const { checkAuth,authUser } = useAuthStore();
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -16,7 +14,7 @@ export const CardPerfilEstudiante = () => {
       <div className="self-start mb-4">
         <img
           src={
-            auth?.fotoPerfil.url ||
+            authUser?.fotoPerfil.url ||
             "https://cdn-icons-png.flaticon.com/512/4715/4715329.png"
           }
           alt="img-client"
@@ -27,38 +25,38 @@ export const CardPerfilEstudiante = () => {
       </div>
       <div className="self-start mb-2">
         <b>Nombre:</b>
-        <p className="inline-block ml-3">{auth.nombre}</p>
+        <p className="inline-block ml-3">{authUser.nombre}</p>
       </div>
       <div className="self-start mb-2">
         <b>Usuario:</b>
-        <p className="inline-block ml-3">{auth.usuario}</p>
+        <p className="inline-block ml-3">{authUser.usuario}</p>
       </div>
       <div className="self-start mb-2">
         <b>Email:</b>
-        <p className="inline-block ml-3">{auth.email}</p>
+        <p className="inline-block ml-3">{authUser.email}</p>
       </div>
       <div className="self-start mb-2">
         <b>Universidad:</b>
-        <p className="inline-block ml-3">{auth.universidad}</p>
+        <p className="inline-block ml-3">{authUser.universidad}</p>
       </div>
       <div className="self-start mb-2">
         <b>Celular:</b>
-        <p className="inline-block ml-3">{auth.celular}</p>
+        <p className="inline-block ml-3">{authUser.celular}</p>
       </div>
       <div className="self-start mb-2">
         <b>Carrera:</b>
-        <p className="inline-block ml-3">{auth.carrera}</p>
+        <p className="inline-block ml-3">{authUser.carrera}</p>
       </div>
 
       <div className="self-start mb-4">
         <b>Bio:</b>
-        <p className="inline-block ml-3">{auth.bio}</p>
+        <p className="inline-block ml-3">{authUser.bio}</p>
       </div>
 
       <div className="self-start mb-4">
         <b>Intereses:</b>
         <ul className="mt-2">
-          {auth.intereses?.map((interes, index) => (
+          {authUser.intereses?.map((interes, index) => (
             <li key={index} className="ml-3">
               {interes}
             </li>

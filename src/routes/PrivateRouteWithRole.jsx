@@ -1,12 +1,11 @@
-import AuthContext from '../context/AuthProvider';
-import { useContext } from 'react';
 import { Forbidden } from '../paginas/Forbidden';
+import { useAuthStore } from '../Chat/store/useAuthStore';
 
 
 export default function PrivateRouteWithRole({ children }) {
-    const { auth } = useContext(AuthContext)
+    const { authUser } = useAuthStore()
 
-    if ("Estudiante" === auth.rol) {
+    if ("Estudiante" === authUser.rol) {
         return <Forbidden/>
     } else {
         return children

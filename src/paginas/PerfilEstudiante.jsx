@@ -2,14 +2,14 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../Chat/store/useAuthStore";
 
 export const PerfilEstudiante = () => {
   const { id } = useParams(); // Obtener el ID del estudiante de la URL
   const [estudiante, setEstudiante] = useState(null); // Estado para guardar los datos del estudiante
-
+  const {token} = useAuthStore()
   const consultarEstudiante = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/${id}`;
       const options = {
         headers: {

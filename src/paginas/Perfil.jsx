@@ -1,13 +1,11 @@
-import React from 'react'
 import { CardPerfil } from '../componets/Perfil/CardPerfil'
 import Password from '../componets/Perfil/Password'
 import FormularioPerfil from '../componets/Perfil/FormularioPerfil'
 import { CardPerfilEstudiante } from '../componets/Perfil/CardPerfilEstudiante'
-import AuthContext from '../context/AuthProvider'
-import { useContext } from 'react'
+import { useAuthStore } from '../Chat/store/useAuthStore'
 
 const Perfil = () => {
-    const { auth } = useContext(AuthContext)
+    const { authUser } = useAuthStore();
     return (
         <>       
             <div>
@@ -16,7 +14,7 @@ const Perfil = () => {
                 <p className='mb-8'>Este módulo te permite visualizar el perfil del usuario......</p>
             </div>
             {
-                auth.rol === 'Estudiante'
+                authUser.rol === 'Estudiante'
                     ? (<CardPerfilEstudiante/>)
                     : (
                         <div className='flex justify-around gap-x-8 flex-wrap gap-y-8 md:flex-nowrap'>

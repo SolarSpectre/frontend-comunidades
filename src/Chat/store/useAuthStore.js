@@ -17,36 +17,91 @@ export const useAuthStore = create(
       setToken: (newToken) => {
         set({ token: newToken });
       },
-      checkAuth: async () => {
+      actualizarPassword: async (datos) => {
         try {
-          const token = get().token;
-          if (!token) {
-            throw new Error("No token found");
-          }
-          const res = await axiosInstance.get("/estudiante/perfil", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          const { token, authUser } = get();
+          const endpoint = authUser?.rol === 'Administrador' 
+            ? "/administrador/actualizarpassword" 
+            : "/estudiante/actualizarpassword";
+          
+          const respuesta = await axiosInstance.put(endpoint, datos, {
+            headers: { Authorization: `Bearer ${token}` }
           });
-          set({ authUser: res.data });
-          get().connectSocket();
+          
+          return { msg: respuesta.data.msg, ok: true };
         } catch (error) {
-          console.log("Error in checkAuth:", error);
-          set({ authUser: null, token: null });
-        } finally {
-          set({ isCheckingAuth: false });
+          return { msg: error.response?.data?.msg || "Error al actualizar", ok: false };
         }
       },
-      login: async (data) => {
+
+      // Método para actualizar perfil
+      actualizarPerfil: async (datos) => {
         try {
-          const res = await axiosInstance.post("/estudiante/login", data);
-          set({ authUser: res.data });
-          set({ token: res.data.token });
+          const { token, authUser } = get();
+          const endpoint = authUser?.rol === 'Administrador' 
+            ? `/administrador/${datos.id}` 
+            : `/estudiante/actualizar/${datos.id}`;
+          
+          const respuesta = await axiosInstance.put(endpoint, datos, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
+          // Actualizar datos locales después de la modificación
+          await get().checkAuth();
+          return { msg: respuesta.data.msg, ok: true };
+        } catch (error) {
+          return { msg: error.response?.data?.msg || "Error al actualizar", ok: false };
+        }
+      },
+
+      checkAuth: async () => {
+        try {
+          const { token, authUser } = get();
+          if (!token) throw new Error("No autenticado");
+          
+          const endpoint = authUser?.rol === 'Administrador' 
+            ? "/admin/perfil" 
+            : "/estudiante/perfil";
+          
+          const respuesta = await axiosInstance.get(endpoint, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
+          set({ 
+            authUser: { ...respuesta.data},
+            token: respuesta.data.token 
+          });
+          
           get().connectSocket();
+          return true;
+        } catch (error) {
+          set({ authUser: null, token: null });
+          return false;
+        }
+      },
+      login: async (data, isAdmin = false) => {
+        try {
+          const endpoint = isAdmin ? "/login" : "/estudiante/login";
+          const res = await axiosInstance.post(endpoint, data);
+          
+          set({ 
+            authUser: { ...res.data},
+            token: res.data.token
+          });
+          
+          get().connectSocket();
+          toast.success(`Bienvenido ${res.data.nombre}`);
+        } catch (error) {
+          toast.error(error.response?.data?.msg || "Error de autenticación");
+        }
+      },
+      logout: async () => {
+        try {
+          set({ authUser: null, token: null  });
+          toast.success("Logged out successfully");
+          get().disconnectSocket();
         } catch (error) {
           toast.error(error.response.data.message);
-        } finally {
-          set({ isLoggingIn: false });
         }
       },
       connectSocket: () => {

@@ -1,20 +1,19 @@
-import { useState, useContext, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import AuthContext from "../context/AuthProvider";
 import ModalMiembros from "../componets/Modals/ModalMiembros";
+import { useAuthStore } from "../Chat/store/useAuthStore";
 
 const VisualizarComunidad = () => {
   const [comunidad, setComunidad] = useState({});
-  const { auth } = useContext(AuthContext);
+  const { authUser,token } = useAuthStore();
   const { id } = useParams();
 
   const navigate = useNavigate();
 
   const unirseComunidad = async (id) => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${
         import.meta.env.VITE_BACKEND_URL
       }/comunidades/${id}/unirse`;
@@ -24,7 +23,7 @@ const VisualizarComunidad = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.post(url, { _id: auth?._id }, options);
+      await axios.post(url, { _id: authUser?._id }, options);
       toast.success("Te has unido a la comunidad exitosamente.");
     } catch (error) {
       toast.error(error.response.data.mensaje);
@@ -42,7 +41,6 @@ const VisualizarComunidad = () => {
 
   const consultarComunidad = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
       const url = `${import.meta.env.VITE_BACKEND_URL}/comunidades/${id}`;
       const options = {
         headers: {
@@ -164,9 +162,9 @@ const VisualizarComunidad = () => {
                 <p className="text-sm text-gray-600">
                   {comunidad.administrador.email}
                 </p>
-                {auth?.rol ===
+                {authUser?.rol ===
                 "Administrador" ? null : comunidad.estudiantes?.find(
-                    (estudiante) => estudiante.usuario === auth?.usuario
+                    (estudiante) => estudiante.usuario === authUser?.usuario
                   ) ? (
                   <button
                     className="bg-blue-600 text-white p-2 mt-4 rounded-md"

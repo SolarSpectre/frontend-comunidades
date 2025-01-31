@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
+import { useAuthStore } from '../Chat/store/useAuthStore';
 
 const Chat = () => {
   const [message, setMessage] = useState('');
@@ -12,9 +13,9 @@ const Chat = () => {
   const lastTypingTime = useRef();
   const messagesEndRef = useRef();
   
-  const authData = JSON.parse(localStorage.getItem('auth')) || {};
-  const username = authData.usuario || 'Anonymous';
-  const userProfileImg = authData.fotoPerfil.url || '/images/defaultprofile.jpg';
+  const { authUser } = useAuthStore();
+  const username = authUser.usuario || 'Anonymous';
+  const userProfileImg = authUser?.fotoPerfil?.url || '/images/defaultprofile.jpg';
 
   useEffect(() => {
     socketRef.current = io('http://localhost:3000', {
