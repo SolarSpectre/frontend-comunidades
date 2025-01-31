@@ -8,11 +8,9 @@ import { useThemeStore } from "../store/useThemeStore";
 
 const ChatAmigos = () => {
   const { selectedUser } = useChatStore();
-  const { authUser, isCheckingAuth, onlineUsers } = useAuthStore();
+  const { authUser, isCheckingAuth } = useAuthStore();
   const { theme } = useThemeStore();
 
-  console.log(onlineUsers);
-  console.log(authUser);
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">

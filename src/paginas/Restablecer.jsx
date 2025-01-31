@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import toast from "react-hot-toast";
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
@@ -42,10 +41,8 @@ const Restablecer = () => {
             const url = `${import.meta.env.VITE_BACKEND_URL}/recuperar-password/${token}`
             const respuesta = await axios.get(url)
             setTokenBack(true)
-            console.log(respuesta);
             toast.success(respuesta.data.msg)
         } catch (error) {
-            console.log(error);
             toast.error(error.response.data.msg)
         }
     }

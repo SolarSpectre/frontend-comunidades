@@ -10,7 +10,6 @@ export const Confirmar = () => {
         try {
             const url = `${import.meta.env.VITE_BACKEND_URL}/confirmar/${token}`
             const respuesta = await axios.get(url)
-            console.log(respuesta)
             toast.success(respuesta.data.msg)
         } catch (error) {
             console.error(error)
