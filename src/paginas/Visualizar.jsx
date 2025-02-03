@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import ModalMiembros from "../componets/Modals/ModalMiembros";
 import { useAuthStore } from "../Chat/store/useAuthStore";
+import { Pencil, Trash2 } from "lucide-react";
 
 const VisualizarComunidad = () => {
   const [comunidad, setComunidad] = useState({});
@@ -27,6 +28,25 @@ const VisualizarComunidad = () => {
       toast.success("Te has unido a la comunidad exitosamente.");
     } catch (error) {
       toast.error(error.response.data.mensaje);
+    }
+  };
+    
+  // Función para eliminar una comunidad
+  const eliminarComunidad = async (id) => {
+    try {
+      const confirmar = confirm("¿Estás seguro de eliminar esta comunidad?");
+      if (confirmar) {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/comunidades/${id}`;
+        const options = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        await axios.delete(url, options);
+      }
+    } catch (error) {
+      console.error("Error al eliminar la comunidad:", error);
     }
   };
   const formatearFecha = (fecha) => {
@@ -54,7 +74,7 @@ const VisualizarComunidad = () => {
       console.error(error);
       toast.error("Error al cargar los datos de la comunidad");
     }
-  }, [id]);
+  }, [id,token]);
   
   useEffect(() => {
     consultarComunidad();
@@ -180,6 +200,20 @@ const VisualizarComunidad = () => {
                     Unirse a la comunidad
                   </button>
                 )}
+                {authUser.rol === "Administrador" && (
+              <>
+                <Pencil
+                  className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
+                  onClick={() =>
+                    navigate(`/dashboard/actualizar/${comunidad._id}`)
+                  }
+                />
+                <Trash2
+                  className="h-7 w-7 text-red-900 cursor-pointer inline-block"
+                  onClick={() => eliminarComunidad(comunidad._id)}
+                />
+              </>
+            )}
               </div>
             </>
           ) : (

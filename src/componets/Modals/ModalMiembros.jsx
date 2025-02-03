@@ -113,7 +113,7 @@ function ModalMiembros({ miembros }) {
                     <ul className="divide-y divide-gray-200">
                       {miembros.map((member) => (
                         <li
-                          key={member.id}
+                          key={member._id}
                           className="py-4 flex items-center justify-between"
                         >
                           <div className="flex items-center">

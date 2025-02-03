@@ -8,6 +8,7 @@ const Dashboard = () => {
   const location = useLocation();
   const urlActual = location.pathname;
   const isChatAmigosRoute = location.pathname === "/dashboard/chat/amigos";
+  const isListarRoute = location.pathname === "/dashboard/listar";
 
   return (
     <div className="md:flex md:min-h-screen">
@@ -53,7 +54,7 @@ const Dashboard = () => {
               to="/dashboard/listar"
               className={`${
                 urlActual === "/dashboard/listar"
-                  ? "text-slate-200 bg-gray-900 px-3 py-2 rounded-md text-center"
+                  ? "text-slate-200 bg-gray-900"
                   : "text-slate-600"
               } text-xl block mt-2 hover:text-slate-600`}
             >
@@ -121,8 +122,8 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-        <div className={isChatAmigosRoute ? "" : "overflow-y-scroll p-8"}>
-          {token ? <Outlet /> : <Navigate to="/login" />}
+        <div className={isChatAmigosRoute ? "" : isListarRoute ? "overflow-y-scroll" : "overflow-y-scroll p-8"}>
+        {token ? <Outlet /> : <Navigate to="/login" />}
         </div>
         <div className="bg-gray-800 h-12">
           <p className="text-center  text-slate-100 leading-[2.9rem] underline">
