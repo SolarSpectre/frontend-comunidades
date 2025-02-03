@@ -9,7 +9,7 @@ const Dashboard = () => {
   const urlActual = location.pathname;
   const isChatAmigosRoute = location.pathname === "/dashboard/chat/amigos";
   const isListarRoute = location.pathname === "/dashboard/listar";
-
+  const isChatRoute = /^\/dashboard\/[^/]+\/chat$/.test(location.pathname);
   return (
     <div className="md:flex md:min-h-screen">
       <div className="md:w-1/5 bg-gray-800 px-5 py-4">
@@ -122,8 +122,18 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-        <div className={isChatAmigosRoute ? "" : isListarRoute ? "overflow-y-scroll" : "overflow-y-scroll p-8"}>
-        {token ? <Outlet /> : <Navigate to="/login" />}
+        <div
+          className={
+            isChatAmigosRoute
+              ? ""
+              : isChatRoute
+              ? "overflow-y-scroll"
+              : isListarRoute
+              ? "overflow-y-scroll"
+              : "overflow-y-scroll p-8"
+          }
+        >
+          {token ? <Outlet /> : <Navigate to="/login" />}
         </div>
         <div className="bg-gray-800 h-12">
           <p className="text-center  text-slate-100 leading-[2.9rem] underline">
