@@ -8,7 +8,7 @@ import { Pencil, Trash2 } from "lucide-react";
 
 const VisualizarComunidad = () => {
   const [comunidad, setComunidad] = useState({});
-  const { authUser,token } = useAuthStore();
+  const { authUser, token } = useAuthStore();
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -26,11 +26,12 @@ const VisualizarComunidad = () => {
       };
       await axios.post(url, { _id: authUser?._id }, options);
       toast.success("Te has unido a la comunidad exitosamente.");
+      consultarComunidad();
     } catch (error) {
       toast.error(error.response.data.mensaje);
     }
   };
-    
+
   // Función para eliminar una comunidad
   const eliminarComunidad = async (id) => {
     try {
@@ -74,8 +75,8 @@ const VisualizarComunidad = () => {
       console.error(error);
       toast.error("Error al cargar los datos de la comunidad");
     }
-  }, [id,token]);
-  
+  }, [id, token]);
+
   useEffect(() => {
     consultarComunidad();
   }, [consultarComunidad]);
@@ -84,7 +85,6 @@ const VisualizarComunidad = () => {
   }
   return (
     <>
-      
       <div>
         <h1 className="font-black text-4xl text-gray-500">
           Visualizar Comunidad
@@ -137,8 +137,8 @@ const VisualizarComunidad = () => {
                       * Miembros:{" "}
                     </span>
                     {comunidad.estudiantes?.length || 0} estudiantes
-                    <ModalMiembros miembros={comunidad.estudiantes} />
                   </p>
+                  <ModalMiembros miembros={comunidad.estudiantes} />
                   <p className="text-md text-gray-00 mt-4">
                     <span className="text-gray-600 uppercase font-bold">
                       * Intereses Relacionados:{" "}
@@ -201,25 +201,29 @@ const VisualizarComunidad = () => {
                   </button>
                 )}
                 {authUser.rol === "Administrador" && (
-              <>
-                <Pencil
-                  className="h-7 w-7 text-slate-800 cursor-pointer inline-block mr-2"
-                  onClick={() =>
-                    navigate(`/dashboard/actualizar/${comunidad._id}`)
-                  }
-                />
-                <Trash2
-                  className="h-7 w-7 text-red-900 cursor-pointer inline-block"
-                  onClick={() => eliminarComunidad(comunidad._id)}
-                />
-              </>
-            )}
+                  <div className="flex items-center gap-x-4 p-5">
+                    <div className="flex flex-col items-center cursor-pointer">
+                      <Pencil
+                        className="h-7 w-7 text-slate-800"
+                        onClick={() =>
+                          navigate(`/dashboard/actualizar/${comunidad._id}`)
+                        }
+                      />
+                      <span className="text-sm text-slate-800">Editar</span>
+                    </div>
+                    <div className="flex flex-col items-center cursor-pointer">
+                      <Trash2
+                        className="h-7 w-7 text-red-900"
+                        onClick={() => eliminarComunidad(comunidad._id)}
+                      />
+                      <span className="text-sm text-red-900">Eliminar</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           ) : (
-            <p >
-                Cargando...
-              </p>
+            <p>Cargando...</p>
           )}
         </div>
       </div>

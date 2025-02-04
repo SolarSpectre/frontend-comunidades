@@ -4,7 +4,11 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { MoreHorizontal, Reply, Trash2, Pencil } from "lucide-react";
 import { useAuthStore } from "../../Chat/store/useAuthStore";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
 const formatTimestamp = (dateString) => {
@@ -13,20 +17,23 @@ const formatTimestamp = (dateString) => {
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
 
-  const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: false };
-  const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const optionsTime = { hour: "2-digit", minute: "2-digit", hour12: false };
+  const optionsDate = { day: "2-digit", month: "2-digit", year: "numeric" };
 
   // Comparar fechas sin hora
   const isToday = date.toDateString() === today.toDateString();
   const isYesterday = date.toDateString() === yesterday.toDateString();
 
   if (isToday) {
-    return `hoy a las ${date.toLocaleTimeString('es-ES', optionsTime)}`;
+    return `hoy a las ${date.toLocaleTimeString("es-ES", optionsTime)}`;
   }
   if (isYesterday) {
-    return `ayer a las ${date.toLocaleTimeString('es-ES', optionsTime)}`;
+    return `ayer a las ${date.toLocaleTimeString("es-ES", optionsTime)}`;
   }
-  return `${date.toLocaleDateString('es-ES', optionsDate)} ${date.toLocaleTimeString('es-ES', optionsTime)}`;
+  return `${date.toLocaleDateString(
+    "es-ES",
+    optionsDate
+  )} ${date.toLocaleTimeString("es-ES", optionsTime)}`;
 };
 const ForoComunidad = () => {
   const { id } = useParams();
@@ -177,19 +184,24 @@ const ForoComunidad = () => {
             }`}
           >
             {message.replyTo && (
-            <div className="mb-1 text-sm text-gray-400">
-              <div className="flex items-center gap-1">
-                <Reply className="w-3 h-3" />
-                <span>Respondiendo a </span>
-                <span className="font-medium text-purple-400">
-                  @{messages.find((m) => m.id === message.replyTo)?.author.name || "[Eliminado]"}
-                </span>
+              <div className="mb-1 text-sm text-gray-400">
+                <div className="flex items-center gap-1">
+                  <Reply className="w-3 h-3" />
+                  <span>Respondiendo a </span>
+                  <span className="font-medium text-purple-400">
+                    @
+                    {messages.find((m) => m.id === message.replyTo)?.author
+                      .name || "[Eliminado]"}
+                  </span>
+                </div>
+                <p className="ml-5 text-gray-300 truncate">
+                  "
+                  {messages.find((m) => m.id === message.replyTo)?.content ||
+                    "Mensaje eliminado"}
+                  "
+                </p>
               </div>
-              <p className="ml-5 text-gray-300 truncate">
-                "{messages.find((m) => m.id === message.replyTo)?.content || "Mensaje eliminado"}"
-              </p>
-            </div>
-          )}
+            )}
 
             <div className="flex items-start gap-4 group">
               <div className="avatar">
@@ -236,40 +248,54 @@ const ForoComunidad = () => {
               {authUser._id === message.userId ||
               authUser.rol === "Administrador" ? (
                 <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100">
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-gray-800 text-gray-100">
-                  <DropdownMenuItem onClick={() => setEditingId(message.id)}>
-                    <Pencil className="w-4 h-4 mr-2" />
-                    Edit
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleDelete(message.id)}>
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Delete
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setReplyingTo(message.id)}>
-                    <Reply className="w-4 h-4 mr-2" />
-                    Reply
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="opacity-0 group-hover:opacity-100"
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="bg-gray-800 text-gray-100"
+                  >
+                    <DropdownMenuItem onClick={() => setEditingId(message.id)}>
+                      <Pencil className="w-4 h-4 mr-2" />
+                      Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDelete(message.id)}>
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setReplyingTo(message.id)}>
+                      <Reply className="w-4 h-4 mr-2" />
+                      Reply
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100">
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-gray-800 text-gray-100">
-                  <DropdownMenuItem onClick={() => setReplyingTo(message.id)}>
-                    <Reply className="w-4 h-4 mr-2" />
-                    Reply
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="opacity-0 group-hover:opacity-100"
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="bg-gray-800 text-gray-100"
+                  >
+                    <DropdownMenuItem onClick={() => setReplyingTo(message.id)}>
+                      <Reply className="w-4 h-4 mr-2" />
+                      Reply
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </div>
           </div>
@@ -283,7 +309,9 @@ const ForoComunidad = () => {
               <Reply className="w-4 h-4" />
               <span>Respondiendo a </span>
               <span className="font-medium text-purple-400">
-              @{messages.find((m) => m.id === replyingTo)?.author.name || "[Eliminado]"}
+                @
+                {messages.find((m) => m.id === replyingTo)?.author.name ||
+                  "[Eliminado]"}
               </span>
             </div>
             <button

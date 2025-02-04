@@ -62,7 +62,7 @@ export const Register = () => {
   return (
     <>
       
-      <div className="bg-white flex justify-center items-start w-1/2">
+      <div className="bg-white flex justify-center items-start w-1/2 overflow-auto">
         <div className="md:w-4/5 sm:w-full">
           <h1 className="text-3xl font-semibold mb-2 text-center uppercase text-gray-500">
             Crea tu cuenta
@@ -161,7 +161,7 @@ export const Register = () => {
                 type="file"
                 onChange={handleImageChange}
                 accept="image/*"
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+                className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-500 file:text-slate-300 hover:file:cursor-pointer hover:file:bg-gray-900 hover:file:text-white"
               />
             </div>
 
@@ -188,7 +188,7 @@ export const Register = () => {
       </div>
 
       <div
-        className="w-1/2 h-screen bg-[url('/images/dogregister.jpg')] 
+        className="w-1/2 h-screen bg-[url('/images/register.webp')] 
             bg-no-repeat bg-cover bg-center sm:block hidden"
       ></div>
     </>
