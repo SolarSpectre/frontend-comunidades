@@ -7,7 +7,27 @@ import { useAuthStore } from "../../Chat/store/useAuthStore";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
+const formatTimestamp = (dateString) => {
+  const date = new Date(dateString);
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
 
+  const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: false };
+  const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
+
+  // Comparar fechas sin hora
+  const isToday = date.toDateString() === today.toDateString();
+  const isYesterday = date.toDateString() === yesterday.toDateString();
+
+  if (isToday) {
+    return `hoy a las ${date.toLocaleTimeString('es-ES', optionsTime)}`;
+  }
+  if (isYesterday) {
+    return `ayer a las ${date.toLocaleTimeString('es-ES', optionsTime)}`;
+  }
+  return `${date.toLocaleDateString('es-ES', optionsDate)} ${date.toLocaleTimeString('es-ES', optionsTime)}`;
+};
 const ForoComunidad = () => {
   const { id } = useParams();
   const { authUser, token } = useAuthStore();
@@ -39,7 +59,7 @@ const ForoComunidad = () => {
           },
           replyTo: comment.replyTo?._id,
           isDeletedParent: comment.isDeletedParent,
-          timestamp: new Date(comment.fecha_creacion).toLocaleString(),
+          timestamp: formatTimestamp(comment.fecha_creacion),
           isNew:
             Date.now() - new Date(comment.fecha_creacion).getTime() < 300000, // Nuevo si es menor a 5min
           userId: comment.usuario._id,
@@ -86,7 +106,7 @@ const ForoComunidad = () => {
         },
         replyTo: response.data.replyTo?._id,
         isDeletedParent: response.data.isDeletedParent,
-        timestamp: new Date().toLocaleString(),
+        timestamp: formatTimestamp(new Date()),
         isNew: true,
         userId: authUser._id,
       };
