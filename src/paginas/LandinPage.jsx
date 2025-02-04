@@ -245,7 +245,7 @@ const LandinPage = () => {
               ¿Listo para conectar?
             </h3>
             <Link
-              to="/registro"
+              to="/register"
               className="inline-block bg-teal-600 text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-teal-700 transition-colors duration-300"
             >
               Únete Ahora
