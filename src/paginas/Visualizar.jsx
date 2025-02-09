@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import ModalMiembros from "../componets/Modals/ModalMiembros";
+import ModalMiembros from "../components/Modals/ModalMiembros";
 import { useAuthStore } from "../Chat/store/useAuthStore";
 import { Pencil, Trash2 } from "lucide-react";
 

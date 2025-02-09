@@ -1,4 +1,4 @@
-import Tabla from '../componets/Tabla'
+import Tabla from '../components/ui/Tabla'
 
 const Listar = () => {
     return (

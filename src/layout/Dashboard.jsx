@@ -1,6 +1,6 @@
 import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
-import ModalAmigos from "../componets/Modals/ModalAmigos";
 import { useAuthStore } from "../Chat/store/useAuthStore";
+import ModalAmigos from "../components/Modals/ModalAmigos";
 
 const Dashboard = () => {
   const { authUser, token, logout } = useAuthStore();
@@ -58,7 +58,7 @@ const Dashboard = () => {
                   : "text-slate-600"
               } text-xl block mt-2 hover:text-slate-600`}
             >
-              Listar
+              Comunidades
             </Link>
           </li>
 
@@ -71,7 +71,19 @@ const Dashboard = () => {
                   : "text-slate-600"
               } text-xl block mt-2 hover:text-slate-600`}
             >
-              Crear
+              Crear Comunidad
+            </Link>
+          </li>
+          <li className="text-center">
+            <Link
+              to="/dashboard/estudiantes"
+              className={`${
+                urlActual === "/dashboard/estudiantes"
+                  ? "text-slate-100 bg-gray-900 px-3 py-2 rounded-md text-center"
+                  : "text-slate-600"
+              } text-xl block mt-2 hover:text-slate-600`}
+            >
+              Estudiantes
             </Link>
           </li>
         </ul>

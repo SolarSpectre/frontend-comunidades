@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { useAuthStore } from "../Chat/store/useAuthStore";
+import { useAuthStore } from "@/Chat/store/useAuthStore";
 import { ComunidadCard } from "./CardComunidad";
 
 const TablaComunidades = () => {

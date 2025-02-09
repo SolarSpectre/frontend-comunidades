@@ -23,6 +23,7 @@ import { Toaster } from "react-hot-toast";
 import Configuracion from "./paginas/Configuracion";
 import { useEffect } from "react";
 import { useAuthStore } from "./Chat/store/useAuthStore";
+import Estudiantes from "./paginas/Estudiantes";
 
 function App() {
   const { checkAuth } = useAuthStore();
@@ -69,6 +70,14 @@ function App() {
                     element={
                       <PrivateRouteWithRole>
                         <RegisterAdmin />
+                      </PrivateRouteWithRole>
+                    }
+                  />
+                  <Route
+                    path="estudiantes"
+                    element={
+                      <PrivateRouteWithRole>
+                        <Estudiantes />
                       </PrivateRouteWithRole>
                     }
                   />

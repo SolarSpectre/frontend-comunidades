@@ -1,4 +1,4 @@
-import { Formulario } from '../componets/Formulario'
+import { Formulario } from '../components/ui/Formulario'
 
 const Crear = () => {
     return (

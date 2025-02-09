@@ -1,7 +1,7 @@
-import { CardPerfil } from '../componets/Perfil/CardPerfil'
-import Password from '../componets/Perfil/Password'
-import FormularioPerfil from '../componets/Perfil/FormularioPerfil'
-import { CardPerfilEstudiante } from '../componets/Perfil/CardPerfilEstudiante'
+import { CardPerfil } from '../components/Perfil/CardPerfil'
+import Password from '../components/Perfil/Password'
+import FormularioPerfil from '../components/Perfil/FormularioPerfil'
+import { CardPerfilEstudiante } from '../components/Perfil/CardPerfilEstudiante'
 import { useAuthStore } from '../Chat/store/useAuthStore'
 
 const Perfil = () => {
