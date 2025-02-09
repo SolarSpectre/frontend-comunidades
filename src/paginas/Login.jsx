@@ -20,7 +20,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isStudent = form.password.includes("estud");
+    const validDomains = ["@puce.edu.ec", "@epn.edu.ec", "@ups.edu.ec"];
+    const isStudent = !validDomains.some(domain => form.email.endsWith(domain));
 
     try {
       if (isStudent) {

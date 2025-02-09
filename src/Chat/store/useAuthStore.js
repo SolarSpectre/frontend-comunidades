@@ -42,18 +42,35 @@ export const useAuthStore = create(
       actualizarPerfil: async (datos) => {
         try {
           const { token, authUser } = get();
-          const endpoint =
-            authUser?.rol === "Administrador"
-              ? `/administrador/${datos.id}`
-              : `/estudiante/actualizar/${datos.id}`;
+          if (authUser?.rol === "Estudiante") {
+            const url = `/estudiante/actualizar/${datos.id}`;
+            const formData = new FormData();
 
-          const respuesta = await axiosInstance.put(endpoint, datos, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+            formData.append("nombre", datos.nombre);
+            formData.append("usuario", datos.nombre);
+            formData.append("email", datos.nombre);
+            formData.append("celular", datos.nombre);
+            formData.append("intereses", JSON.stringify(datos.intereses));
+            formData.append("bio", datos.nombre);
+            formData.append("fotoPerfil", datos.fotoPerfil);
 
-          // Actualizar datos locales después de la modificación
-          await get().checkAuth();
-          return { msg: respuesta.data.msg, ok: true };
+            const respuesta = await axiosInstance.put(url, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            return { msg: respuesta.data.msg, ok: true };
+          } else {
+            const endpoint = `/administrador/${datos.id}`;
+
+            const respuesta = await axiosInstance.put(endpoint, datos, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            // Actualizar datos locales después de la modificación
+            await get().checkAuth();
+            return { msg: respuesta.data.msg, ok: true };
+          }
         } catch (error) {
           return {
             msg: error.response?.data?.msg || "Error al actualizar",
