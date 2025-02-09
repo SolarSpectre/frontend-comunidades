@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { UserFormField } from "../Estudiantes/EstudianteForm"
 
 export function EditUserModal({ user, isOpen, onClose, onSave }) {
-  const [formData, setFormData] = useState({ nombre: "", email: "", universidad: "",carrera: "",bio: ""})
+  const [formData, setFormData] = useState({ nombre: "", email: "", universidad: "",carrera: "",celular: "",usuario: ""})
 
   useEffect(() => {
     if (user) {
@@ -37,7 +37,8 @@ export function EditUserModal({ user, isOpen, onClose, onSave }) {
             <UserFormField label="Email" value={formData.email} onChange={handleChange("email")} />
             <UserFormField label="Universidad" value={formData.universidad} onChange={handleChange("universidad")} />
             <UserFormField label="Carrera" value={formData.carrera} onChange={handleChange("carrera")} />
-            <UserFormField label="Bio" value={formData.bio} onChange={handleChange("bio")} />
+            <UserFormField label="Celular" value={formData.celular} onChange={handleChange("celular")} />
+            <UserFormField label="Usuario" value={formData.usuario} onChange={handleChange("usuario")} />
           </div>
           <DialogFooter className="mt-6">
             <Button type="button" variant="outline" onClick={onClose}>
@@ -56,10 +57,11 @@ EditUserModal.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     nombre: PropTypes.string.isRequired,
+    usuario: PropTypes.string.isRequired,
+    celular: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     universidad: PropTypes.string.isRequired,
     carrera: PropTypes.string.isRequired,
-    bio: PropTypes.string,
   }),
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,

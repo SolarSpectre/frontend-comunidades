@@ -3,8 +3,9 @@ import { TablaEstudiantes } from "./TablaEstudiantes"
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuthStore } from "@/Chat/store/useAuthStore";
+import PropTypes from "prop-types";
 
-export function ActiveUsers() {
+export function ActiveUsers({ searchQuery }) {
   const [activeUsers, setActiveUsers] = useState([])
   const {token} = useAuthStore()
   const consultarUsuarios = useCallback(async () => {
@@ -30,11 +31,19 @@ export function ActiveUsers() {
   if (!activeUsers) {
     return <div>Cargando...</div>;
   }
+  const filteredUsers = activeUsers.filter(user =>
+    user.nombre
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  )
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">Estudiantes Activos</h2>
-      <TablaEstudiantes users={activeUsers} userState="active" />
+      <TablaEstudiantes users={filteredUsers} userState="active" />
     </div>
   )
 }
+ActiveUsers.propTypes = {
+  searchQuery: PropTypes.string,
+};
 

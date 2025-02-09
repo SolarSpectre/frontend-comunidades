@@ -20,6 +20,7 @@ export function TablaEstudiantes({ users, userState }) {
 
   const handleAction = (user) => {
     setSelectedUser(user)
+    console.log(selectedUser)
     setIsActionModalOpen(true)
   }
 
@@ -37,8 +38,8 @@ export function TablaEstudiantes({ users, userState }) {
     try {
       const isActive = userState === "active";
       const url = isActive
-        ? `/estudiante/eliminar/${selectedUser.id}`  
-        : `/estudiante/reactivar/${selectedUser.id}`;
+        ? `${import.meta.env.VITE_BACKEND_URL}/estudiante/eliminar/${selectedUser._id}`  
+        : `${import.meta.env.VITE_BACKEND_URL}/estudiante/reactivar/${selectedUser._id}`;
   
       const method = isActive ? "delete" : "put";
   
