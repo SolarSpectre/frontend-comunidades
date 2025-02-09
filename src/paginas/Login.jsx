@@ -21,8 +21,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validDomains = ["@puce.edu.ec", "@epn.edu.ec", "@ups.edu.ec"];
-    const isStudent = !validDomains.some(domain => form.email.endsWith(domain));
-
+    const isStudent = validDomains.some(domain => form.email.endsWith(domain));
     try {
       if (isStudent) {
         await useAuthStore.getState().login(form, false);
