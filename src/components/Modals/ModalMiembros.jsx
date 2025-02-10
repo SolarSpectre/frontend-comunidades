@@ -120,7 +120,7 @@ function ModalMiembros({ miembros }) {
                             <img
                               className="h-10 w-10 rounded-full"
                               src={
-                                member.fotoPerfil.url ||
+                                member?.fotoPerfil?.url ||
                                 "/images/defaultprofile.jpg"
                               }
                               alt=""

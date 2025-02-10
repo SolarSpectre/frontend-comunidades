@@ -47,11 +47,11 @@ export const useAuthStore = create(
             const formData = new FormData();
 
             formData.append("nombre", datos.nombre);
-            formData.append("usuario", datos.nombre);
-            formData.append("email", datos.nombre);
-            formData.append("celular", datos.nombre);
+            formData.append("usuario", datos.usuario);
+            formData.append("email", datos.email);
+            formData.append("celular", datos.celular);
             formData.append("intereses", JSON.stringify(datos.intereses));
-            formData.append("bio", datos.nombre);
+            formData.append("bio", datos.bio);
             formData.append("fotoPerfil", datos.fotoPerfil);
 
             const respuesta = await axiosInstance.put(url, formData, {

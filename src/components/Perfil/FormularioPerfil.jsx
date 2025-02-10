@@ -22,18 +22,13 @@ const FormularioPerfil = () => {
           email: authUser.email || "",
           carrera: authUser.carrera || "",
           celular: authUser.celular || "",
-          intereses: authUser.intereses || [],
+          intereses: Array.isArray(authUser.intereses) 
+          ? authUser.intereses.join(", ") 
+          : authUser.intereses || "",
           bio: authUser.bio || "",
           fotoPerfil: null,
         }
   );
-  const handleIntereses = (e) => {
-    const { value } = e.target;
-    setForm({
-      ...form,
-      intereses: value.split(",").map((item) => item.trim()),
-    });
-  };
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -54,31 +49,16 @@ const FormularioPerfil = () => {
       toast.error("Todos los campos deben ser ingresados");
       return;
     }
-    const resultado = await actualizarPerfil(form);
+    const finalData = {
+      ...form,
+      intereses: form.intereses
+        .split(",")
+        .map(item => item.trim().replace(/^"(.*)"$/, '$1'))
+        .filter(item => item !== "")
+    };
+    const resultado = await actualizarPerfil(finalData);
     if (resultado.ok) {
       toast.success(resultado.msg);
-      setForm(
-        authUser.rol === "Administrador"
-          ? {
-              id: "",
-              nombre: "",
-              apellido: "",
-              direccion: "",
-              telefono: "",
-              email: "",
-            }
-          : {
-              id: "",
-              nombre: "",
-              usuario: "",
-              email: "",
-              carrera: "",
-              celular: "",
-              intereses: [],
-              bio: "",
-              fotoPerfil: null,
-            }
-      );
     } else {
       toast.error(resultado.msg);
     }
@@ -288,8 +268,8 @@ const FormularioPerfil = () => {
               className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5"
               placeholder="ej: Fotografia, Arte"
               name="intereses"
-              value={form.intereses.join(", ")}
-              onChange={handleIntereses}
+              value={form.intereses}
+              onChange={handleChange}
             />
           </div>
           <div>
