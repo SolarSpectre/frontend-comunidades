@@ -1,13 +1,13 @@
 import toast from "react-hot-toast";
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
 const Restablecer = () => {
     const { token } = useParams();
     const [tokenback, setTokenBack] = useState(false)
-
+    const navigate = useNavigate()
 
     const [form, setForm] = useState({
         password: "",
