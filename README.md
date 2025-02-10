@@ -77,3 +77,15 @@ npm run build
 
 ## 📜 Licencia
 Este proyecto está bajo la licencia MIT.
+## 🤝 Contribuciones
+¡Las contribuciones son bienvenidas! Si deseas colaborar, sigue estos pasos:
+1. Haz un fork del repositorio.
+2. Crea una rama con tu nueva funcionalidad (git checkout -b feature-nueva-funcionalidad).
+3. Realiza tus cambios y haz commit (git commit -m 'Agrega nueva funcionalidad').
+4. Sube los cambios a tu fork (git push origin feature-nueva-funcionalidad).
+5. Abre un Pull Request y describe tus cambios.
+
+---
+
+## 📞 Contacto
+Si tienes alguna pregunta o sugerencia, no dudes en abrir un issue o contactar a los desarrolladores a través del repositorio oficial.
